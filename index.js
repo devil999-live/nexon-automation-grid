@@ -1,5 +1,6 @@
 const { makeWASocket, useMultiFileAuthState, DisconnectReason, downloadMediaMessage } = require('@whiskeysockets/baileys');
 const qrcode = require('qrcode-terminal');
+const QRCodeLib = require('qrcode');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -23,6 +24,7 @@ const upload = multer({ storage: storage });
 
 let sock;
 let botConnectionStatus = 'disconnected';
+let latestQR = ""; // Variable to hold raw QR string for browser viewing
 
 // --- INDEPENDENT TELEGRAM LOGGER CONFIGURATION ---
 const TG_CONFIG_FILE = path.join(__dirname, 'telegram_config.json');
@@ -263,6 +265,7 @@ async function startBot() {
         const { connection, lastDisconnect, qr } = update;
         if (qr) {
             botConnectionStatus = 'qr_waiting';
+            latestQR = qr; // Save raw QR for browser endpoint
             console.log('\n==============================');
             console.log('SCAN THIS FRESH QR CODE:');
             console.log('==============================\n');
@@ -270,10 +273,12 @@ async function startBot() {
         }
         if (connection === 'close') {
             botConnectionStatus = 'disconnected';
+            latestQR = "";
             const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
             if (shouldReconnect) startBot();
         } else if (connection === 'open') {
             botConnectionStatus = 'connected';
+            latestQR = ""; // Clear QR once connected
             console.log('\n[SUCCESS] WhatsApp Bot connected successfully!\n');
         }
     });
@@ -417,6 +422,34 @@ app.get('/', (req, res) => {
     res.send('Nexon Automation Grid - Bot is Active 24/7');
 });
 
+// --- BROWSER QR CODE VIEWER ENDPOINT ---
+app.get('/qr', async (req, res) => {
+    if (!latestQR) {
+        return res.send(`
+            <div style="text-align:center; margin-top:50px; background:#090d16; color:#34d399; font-family:monospace; padding:40px; min-height:100vh;">
+                <h2>✅ WhatsApp is already connected or QR code is regenerating!</h2>
+                <p style="color:#94a3b8; margin-top:15px;">Check server console logs or refresh if needed.</p>
+            </div>
+        `);
+    }
+    try {
+        const dataUrl = await QRCodeLib.toDataURL(latestQR);
+        res.send(`
+            <div style="text-align:center; margin-top:40px; background:#090d16; color:#f1f5f9; font-family:monospace; padding:30px; min-height:100vh;">
+                <h2 style="color:#38bdf8; text-shadow: 0 0 10px rgba(56,189,248,0.5);">NEXON - Scan WhatsApp QR Code</h2>
+                <p style="color:#94a3b8; margin:15px 0 25px 0;">Open WhatsApp on your phone &rarr; Linked Devices &rarr; Link a Device</p>
+                <div style="display:inline-block; padding:15px; background:#fff; border-radius:12px; box-shadow: 0 0 30px rgba(56,189,248,0.5);">
+                    <img src="${dataUrl}" alt="WhatsApp QR Code" style="width:320px; height:320px; display:block;" />
+                </div>
+                <p style="color:#34d399; margin-top:20px; font-size:0.85rem;">Page auto-refreshes every 10 seconds...</p>
+                <script>setTimeout(() => window.location.reload(), 10000);</script>
+            </div>
+        `);
+    } catch (err) {
+        res.status(500).send('Error generating graphical QR code');
+    }
+});
+
 app.get('/api/status', (req, res) => {
     res.json({
         enabled: isBotEnabled,
@@ -534,7 +567,7 @@ app.delete('/api/schedule/:id', (req, res) => {
 app.post('/api/upload-vcf', (req, res) => {
     const { vcfData } = req.body;
     try {
-        if (!vcfData) throw new Error('No VCF data provided.');
+        if (!vcfData) throw new DataTransfer(); // fallback
         const addedCount = parseVcfContent(vcfData);
         res.json({ status: `Successfully parsed and added ${addedCount} clean contacts from VCF file!` });
     } catch (err) {

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batches - Nexon</title>
+    <style>
+        :root {
+            --bg-base: #090d16;
+            --metallic-panel: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(10, 14, 26, 0.98) 100%);
+            --metallic-border: linear-gradient(135deg, rgba(56, 189, 248, 0.8), rgba(30, 41, 59, 0.9), rgba(56, 189, 248, 0.3));
+            --neon-cyan: #38bdf8;
+            --neon-emerald: #34d399;
+            --neon-amber: #fbbf24;
+            --neon-rose: #f43f5e;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace, sans-serif; }
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(56, 189, 248, 0.3) 0%, transparent 60%),
+                linear-gradient(rgba(15, 23, 42, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.4) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: var(--text-main); min-height: 100vh; padding: 40px;
+        }
+        .wrapper { max-width: 900px; margin: 0 auto; }
+        .back-btn { 
+            display: inline-block; color: var(--neon-cyan); text-decoration: none; margin-bottom: 20px; font-size: 0.9rem; 
+            text-shadow: 0 0 10px rgba(56,189,248,0.7); transition: 0.3s;
+        }
+        .back-btn:hover { color: var(--neon-emerald); text-shadow: 0 0 15px rgba(52,211,153,0.9); }
+        .panel {
+            background: var(--metallic-panel); 
+            border: 1px solid rgba(56, 189, 248, 0.5);
+            border-radius: 14px; padding: 35px; 
+            box-shadow: 0 15px 50px rgba(0,0,0,0.85), 0 0 25px rgba(56, 189, 248, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            position: relative; overflow: hidden;
+        }
+        .panel::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%;
+            background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-emerald));
+            box-shadow: 0 0 18px var(--neon-cyan);
+        }
+        h2 { 
+            color: var(--neon-cyan); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; 
+            text-shadow: 0 0 12px rgba(56,189,248,0.6); 
+        }
+        input[type="text"], textarea {
+            width: 100%; background: rgba(2, 6, 23, 0.95); border: 1px solid #334155; padding: 12px;
+            color: var(--text-main); border-radius: 8px; font-size: 0.88rem; outline: none; box-shadow: inset 0 2px 6px rgba(0,0,0,0.7);
+            transition: all 0.3s ease;
+        }
+        input:focus, textarea:focus { border-color: var(--neon-cyan); box-shadow: 0 0 18px rgba(56,189,248,0.5), inset 0 2px 6px rgba(0,0,0,0.7); }
+        .btn {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: white; border: none;
+            padding: 12px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase;
+            letter-spacing: 1.2px; width: 100%; margin-top: 15px; box-shadow: 0 0 20px rgba(2, 132, 199, 0.5); transition: 0.3s;
+        }
+        .btn:hover { box-shadow: 0 0 30px rgba(56,189,248,0.8); transform: translateY(-1px); }
+        .btn-alt { 
+            background: linear-gradient(135deg, #059669 0%, #047857 100%); padding: 7px 14px; font-size: 0.78rem; border-radius: 6px; 
+            cursor: pointer; color: white; border: none; box-shadow: 0 0 12px rgba(5,150,105,0.4); transition: 0.3s;
+        }
+        .btn-alt:hover { box-shadow: 0 0 22px rgba(52,211,153,0.8); }
+        .btn-danger { 
+            background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); padding: 6px 12px; font-size: 0.75rem; color: white; 
+            border: none; border-radius: 6px; cursor: pointer; box-shadow: 0 0 12px rgba(225,29,72,0.4); transition: 0.3s;
+        }
+        .btn-danger:hover { box-shadow: 0 0 22px rgba(244,63,94,0.8); }
+        .batch-card { 
+            background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.35); padding: 20px; border-radius: 10px; 
+            margin-bottom: 18px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 5px 15px rgba(0,0,0,0.4); 
+        }
+        .batch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .contact-list-box { 
+            max-height: 160px; overflow-y: auto; border: 1px solid #334155; border-radius: 6px; background: rgba(2, 6, 23, 0.9); 
+            padding: 6px; margin-top: 6px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.7); 
+        }
+        .contact-item { padding: 6px 10px; border-bottom: 1px solid rgba(51, 65, 85, 0.4); font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
+        .contact-item:hover { background: rgba(56, 189, 248, 0.15); }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <a href="index.html" class="back-btn">← Back to Hub</a>
+        <div class="panel">
+            <h2>
+                Custom Message Batches 
+                <button class="btn-alt" onclick="addNewBatch()">+ Create New Batch</button>
+            </h2>
+            <div id="batches-container"></div>
+            <button class="btn" onclick="saveAllBatches()">Save & Deploy All Batches</button>
+        </div>
+    </div>
+    <script>
+        let cachedContacts = [];
+        let batchesList = [];
+
+        async function init() {
+            try {
+                const resC = await fetch('/api/contacts'); cachedContacts = await resC.json();
+                const resB = await fetch('/api/batches'); batchesList = await resB.json();
+                renderBatches();
+            } catch(e) { console.error(e); }
+        }
+
+        function addNewBatch() {
+            batchesList.push({ id: 'batch_' + Date.now(), name: 'New Batch', contacts: [], message: 'Hello reply.', isSaved: false });
+            renderBatches();
+        }
+
+        function removeBatch(id) {
+            batchesList = batchesList.filter(b => b.id !== id);
+            fetch('/api/batches', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ batches: batchesList }) });
+            renderBatches();
+        }
+
+        function editBatch(id) {
+            const batch = batchesList.find(x => x.id === id);
+            if (batch) {
+                batch.isSaved = false;
+                renderBatches();
+            }
+        }
+
+        function renderBatches() {
+            const container = document.getElementById('batches-container');
+            if (!batchesList.length) { container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 20px;">No batches created yet.</p>`; return; }
+            container.innerHTML = '';
+            
+            batchesList.forEach(batch => {
+                const card = document.createElement('div'); card.className = 'batch-card';
+                if (batch.isSaved) {
+                    card.innerHTML = `
+                        <div class="batch-header">
+                            <h3 style="color: var(--neon-cyan); font-size: 0.95rem;">📂 ${batch.name} (${batch.contacts.length} contacts)</h3>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn-alt" onclick="editBatch('${batch.id}')">Edit</button>
+                                <button class="btn-danger" onclick="removeBatch('${batch.id}')">Delete</button>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Reply: "${batch.message}"</p>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <div class="batch-header">
+                            <input type="text" value="${batch.name}" onchange="batchesList.find(x=>x.id==='${batch.id}').name=this.value" style="width: 50%;">
+                            <button class="btn-alt" onclick="saveSingleBatch('${batch.id}')">Save</button>
+                        </div>
+                        <label style="font-size:0.75rem; color:var(--text-muted); margin-top:8px; display:block;">Search & Select Contacts for Batch:</label>
+                        <input type="text" id="search_${batch.id}" placeholder="Type name or phone number..." onkeyup="filterBatchContacts('${batch.id}')" style="margin-bottom: 6px;">
+                        <div class="contact-list-box" id="listbox_${batch.id}">
+                            ${renderBatchContactsList(batch)}
+                        </div>
+                        <label style="font-size:0.75rem; color:var(--text-muted); margin-top:10px; display:block;">Custom Reply Message:</label>
+                        <textarea rows="2" onchange="batchesList.find(x=>x.id==='${batch.id}').message=this.value">${batch.message}</textarea>
+                    `;
+                }
+                container.appendChild(card);
+            });
+        }
+
+        function renderBatchContactsList(batch, filterQuery = '') {
+            if (!cachedContacts.length) return `<div class="contact-item" style="color: var(--text-muted);">No contacts available.</div>`;
+            const q = filterQuery.toLowerCase();
+            const filtered = cachedContacts.filter(c => c.name.toLowerCase().includes(q) || c.id.includes(q));
+            if (!filtered.length) return `<div class="contact-item" style="color: var(--text-muted);">No matching contacts.</div>`;
+
+            let html = '';
+            filtered.forEach(c => {
+                const isChecked = batch.contacts.includes(c.id) ? 'checked' : '';
+                html += `
+                    <div class="contact-item">
+                        <input type="checkbox" class="cb_${batch.id}" data-contact-id="${c.id}" ${isChecked} style="width: auto; cursor: pointer;">
+                        <span style="flex-grow: 1;">${c.name}</span>
+                        <span style="color: var(--neon-cyan); font-size: 0.75rem;">${c.id}</span>
+                    </div>
+                `;
+            });
+            return html;
+        }
+
+        function filterBatchContacts(batchId) {
+            const query = document.getElementById(`search_${batchId}`).value;
+            const batch = batchesList.find(x => x.id === batchId);
+            if (!batch) return;
+
+            const checkedBoxes = document.querySelectorAll(`.cb_${batchId}:checked`);
+            checkedBoxes.forEach(cb => {
+                const cid = cb.getAttribute('data-contact-id');
+                if (!batch.contacts.includes(cid)) batch.contacts.push(cid);
+            });
+
+            const allBoxes = document.querySelectorAll(`.cb_${batchId}`);
+            allBoxes.forEach(cb => {
+                const cid = cb.getAttribute('data-contact-id');
+                if (!cb.checked) {
+                    batch.contacts = batch.contacts.filter(id => id !== cid);
+                }
+            });
+
+            document.getElementById(`listbox_${batchId}`).innerHTML = renderBatchContactsList(batch, query);
+        }
+
+        function saveSingleBatch(id) {
+            const batch = batchesList.find(x => x.id === id);
+            if (!batch) return;
+
+            const checkedBoxes = document.querySelectorAll(`.cb_${id}:checked`);
+            checkedBoxes.forEach(cb => {
+                const cid = cb.getAttribute('data-contact-id');
+                if (!batch.contacts.includes(cid)) batch.contacts.push(cid);
+            });
+
+            const allBoxes = document.querySelectorAll(`.cb_${id}`);
+            allBoxes.forEach(cb => {
+                const cid = cb.getAttribute('data-contact-id');
+                if (!cb.checked) {
+                    batch.contacts = batch.contacts.filter(id => id !== cid);
+                }
+            });
+
+            batch.isSaved = true;
+            saveAllBatchesToServer();
+            renderBatches();
+        }
+
+        async function saveAllBatches() {
+            batchesList.forEach(b => {
+                b.isSaved = true;
+                const cbs = document.querySelectorAll(`.cb_${b.id}:checked`);
+                cbs.forEach(cb => {
+                    const cid = cb.getAttribute('data-contact-id');
+                    if (!b.contacts.includes(cid)) b.contacts.push(cid);
+                });
+            });
+            await saveAllBatchesToServer();
+            alert('All batches saved & deployed successfully!');
+            renderBatches();
+        }
+
+        async function saveAllBatchesToServer() {
+            try {
+                await fetch('/api/batches', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ batches: batchesList }) });
+            } catch(e) { console.error(e); }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

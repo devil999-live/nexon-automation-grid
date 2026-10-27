@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexon Cyber-Metallic Hub - Control Center</title>
+    <style>
+        :root {
+            --bg-base: #090d16;
+            --metallic-panel: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(10, 14, 26, 0.98) 100%);
+            --metallic-border: linear-gradient(135deg, rgba(56, 189, 248, 0.6), rgba(30, 41, 59, 0.8), rgba(56, 189, 248, 0.2));
+            --neon-cyan: #38bdf8;
+            --neon-emerald: #34d399;
+            --neon-amber: #fbbf24;
+            --neon-rose: #f43f5e;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace, sans-serif; }
+        
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(56, 189, 248, 0.25) 0%, transparent 60%),
+                linear-gradient(rgba(15, 23, 42, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.3) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
+            background-size: 100% 4px; z-index: 999; pointer-events: none; opacity: 0.35;
+        }
+
+        .wrapper { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--metallic-panel);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-image: var(--metallic-border) 1;
+            padding: 25px 35px; border-radius: 14px; margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap; gap: 20px;
+        }
+
+        .logo-area h1 { font-size: 2rem; color: var(--neon-cyan); letter-spacing: 3px; text-shadow: 0 0 15px rgba(56,189,248,0.6); }
+        .logo-area p { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .header-controls { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .live-badge { display: flex; align-items: center; gap: 10px; background: rgba(2, 6, 23, 0.9); padding: 12px 20px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 0.9rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .pulse-dot { width: 10px; height: 10px; border-radius: 50%; background-color: var(--neon-rose); box-shadow: 0 0 10px var(--neon-rose); transition: 0.3s; }
+        .pulse-dot.connected { background-color: var(--neon-emerald); box-shadow: 0 0 12px var(--neon-emerald); }
+        .pulse-dot.qr { background-color: var(--neon-amber); box-shadow: 0 0 12px var(--neon-amber); }
+
+        .switch-container { display: flex; align-items: center; gap: 14px; background: rgba(2, 6, 23, 0.9); padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3); box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .switch { position: relative; display: inline-block; width: 56px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #0f172a; transition: .4s; border-radius: 28px; border: 1px solid #475569; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.4); }
+        input:checked + .slider { background-color: var(--neon-emerald); border-color: var(--neon-emerald); box-shadow: 0 0 15px var(--neon-emerald); }
+        input:checked + .slider:before { transform: translateX(28px); }
+        #status-text { font-weight: bold; font-size: 0.9rem; color: var(--neon-rose); text-shadow: 0 0 8px rgba(244,63,94,0.6); letter-spacing: 1px; }
+
+        /* Balanced 2-Column Grid (3 items left, 3 items right) */
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        @media(max-width: 768px) { .nav-grid { grid-template-columns: 1fr; } }
+
+        .nav-card {
+            background: var(--metallic-panel);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 14px; padding: 30px; text-decoration: none; color: var(--text-main);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            position: relative; overflow: hidden;
+            transition: all 0.3s ease; display: flex; flex-direction: column; gap: 10px;
+        }
+        .nav-card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 20px 55px rgba(56, 189, 248, 0.3);
+            transform: translateY(-4px);
+        }
+        .nav-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%;
+            background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-emerald));
+            box-shadow: 0 0 12px var(--neon-cyan);
+        }
+        .nav-card h3 { font-size: 1.4rem; color: var(--neon-cyan); letter-spacing: 1px; text-shadow: 0 0 8px rgba(56,189,248,0.4); }
+        .nav-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; }
+
+        .footer-note {
+            text-align: center; margin-top: 40px; font-size: 0.8rem; color: var(--text-muted);
+            letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="wrapper">
+        <header>
+            <div class="logo-area">
+                <h1>NEXON AUTOMATION HUB</h1>
+                <p>Cyber-Metallic Control Sub-Grid v3.4</p>
+            </div>
+            <div class="header-controls">
+                <div class="live-badge">
+                    <div class="pulse-dot" id="connection-pulse"></div>
+                    <span id="connection-label">Connecting...</span>
+                </div>
+                <div class="switch-container">
+                    <span id="status-text">BOT OFF</span>
+                    <label class="switch">
+                        <input type="checkbox" id="bot-toggle" onchange="toggleBotStatus()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </header>
+
+        <!-- Balanced 3 Cards on Left, 3 Cards on Right -->
+        <div class="nav-grid">
+            <a href="vcf.html" class="nav-card">
+                <h3>📂 1. VCF Contact Ingestion</h3>
+                <p>Upload vCard files with visual file pickers, parse contacts cleanly, and manage local database records with high security.</p>
+            </a>
+            <a href="fallback.html" class="nav-card">
+                <h3>💬 2. Unknown Fallback Settings</h3>
+                <p>Configure custom auto-reply templates for non-VCF numbers with strict anti-spam cooldown protection rules.</p>
+            </a>
+            <a href="scheduler.html" class="nav-card">
+                <h3>⏰ 3. Message Scheduler & Media</h3>
+                <p>Schedule dispatches to single or multiple contacts with direct computer file browser attachments and multi-format support.</p>
+            </a>
+            <a href="batches.html" class="nav-card">
+                <h3>👥 4. Custom Message Batches</h3>
+                <p>Group contacts into custom batches using live search filters and assign specialized automated responses instantly.</p>
+            </a>
+            <a href="telegram.html" class="nav-card">
+                <h3>🛡️ 5. Telegram Anti-Revoke Logger</h3>
+                <p>Configure independent Telegram API tokens, chat IDs, and manage real-time message/media logger toggle switches.</p>
+            </a>
+            <a href="analytics.html" class="nav-card">
+                <h3>📊 6. Live Analytics & History</h3>
+                <p>Track live dispatches, automated batch responses, and fallback interactions in a comprehensive real-time activity feed.</p>
+            </a>
+        </div>
+
+        <div class="footer-note">
+            <p>Nexon Automation Grid &bull; Secure Localhost & Cloud Environment</p>
+        </div>
+    </div>
+
+    <script>
+        async function fetchSystemStatus() {
+            try {
+                const res = await fetch('/api/status');
+                const data = await res.json();
+                
+                const dot = document.getElementById('connection-pulse');
+                const label = document.getElementById('connection-label');
+                const toggle = document.getElementById('bot-toggle');
+                const statusText = document.getElementById('status-text');
+
+                if (data.status === 'connected') {
+                    dot.className = 'pulse-dot connected';
+                    label.textContent = 'WhatsApp Connected';
+                } else if (data.status === 'qr_waiting') {
+                    dot.className = 'pulse-dot qr';
+                    label.textContent = 'Scan QR in Terminal';
+                } else {
+                    dot.className = 'pulse-dot';
+                    label.textContent = 'Disconnected';
+                }
+
+                if (toggle.checked !== data.enabled) {
+                    toggle.checked = data.enabled;
+                    statusText.textContent = data.enabled ? "BOT ON" : "BOT OFF";
+                    statusText.style.color = data.enabled ? "var(--neon-emerald)" : "var(--neon-rose)";
+                }
+            } catch (err) { console.error('Status fetch error:', err); }
+        }
+
+        async function toggleBotStatus() {
+            const isChecked = document.getElementById('bot-toggle').checked;
+            const statusText = document.getElementById('status-text');
+            statusText.textContent = isChecked ? "BOT ON" : "BOT OFF";
+            statusText.style.color = isChecked ? "var(--neon-emerald)" : "var(--neon-rose)";
+            await fetch('/api/config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ enabled: isChecked })
+            });
+        }
+
+        window.onload = () => {
+            fetchSystemStatus();
+            setInterval(fetchSystemStatus, 3000);
+        };
+    </script>
+</body>
+</html>

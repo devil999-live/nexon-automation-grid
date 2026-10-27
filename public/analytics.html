@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Feed - Nexon</title>
+    <style>
+        :root {
+            --bg-base: #090d16;
+            --metallic-panel: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(10, 14, 26, 0.98) 100%);
+            --neon-cyan: #38bdf8;
+            --neon-emerald: #34d399;
+            --neon-amber: #fbbf24;
+            --neon-rose: #f43f5e;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace, sans-serif; }
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(56, 189, 248, 0.25) 0%, transparent 60%),
+                linear-gradient(rgba(15, 23, 42, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.3) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: var(--text-main); min-height: 100vh; padding: 40px;
+        }
+        .wrapper { max-width: 900px; margin: 0 auto; }
+        .back-btn { display: inline-block; color: var(--neon-cyan); text-decoration: none; margin-bottom: 20px; font-size: 0.9rem; text-shadow: 0 0 8px rgba(56,189,248,0.4); }
+        .panel {
+            background: var(--metallic-panel); border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 14px; padding: 35px; box-shadow: 0 15px 45px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            position: relative; overflow: hidden;
+        }
+        .panel::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%;
+            background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-emerald));
+            box-shadow: 0 0 12px var(--neon-cyan);
+        }
+        h2 { color: var(--neon-cyan); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; text-shadow: 0 0 10px rgba(56,189,248,0.4); }
+        .btn-alt {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white; border: none;
+            padding: 8px 14px; font-size: 0.75rem; border-radius: 6px; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 2px 10px rgba(5,150,105,0.3); transition: 0.3s;
+        }
+        .btn-alt:hover { box-shadow: 0 4px 15px rgba(52,211,153,0.5); transform: translateY(-1px); }
+        .contact-list-box { max-height: 400px; overflow-y: auto; border: 1px solid #334155; border-radius: 8px; background: rgba(2, 6, 23, 0.85); padding: 8px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.6); }
+        .history-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid rgba(51,65,85,0.4); font-size: 0.82rem; gap: 12px; }
+        .history-row:hover { background: rgba(56, 189, 248, 0.06); }
+        .history-badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; text-transform: uppercase; font-weight: bold; }
+        .badge-scheduled { background: rgba(251,191,36,0.2); color: var(--neon-amber); border: 1px solid rgba(251,191,36,0.4); }
+        .badge-batch { background: rgba(52,211,153,0.2); color: var(--neon-emerald); border: 1px solid rgba(52,211,153,0.4); }
+        .badge-fallback { background: rgba(244,63,94,0.2); color: var(--neon-rose); border: 1px solid rgba(244,63,94,0.4); }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <a href="index.html" class="back-btn">← Back to Hub</a>
+        <div class="panel">
+            <h2>
+                📊 Live Analytics & Sent History Feed
+                <button class="btn-alt" onclick="fetchHistoryLogs()">Refresh Logs</button>
+            </h2>
+            <div class="contact-list-box" id="history-list-box"></div>
+        </div>
+    </div>
+    <script>
+        async function fetchHistoryLogs() {
+            try {
+                const res = await fetch('/api/history');
+                const logs = await res.json();
+                const box = document.getElementById('history-list-box');
+                if (!logs.length) { box.innerHTML = `<div class="history-row" style="color: var(--text-muted); justify-content: center;">No logs recorded yet.</div>`; return; }
+                box.innerHTML = '';
+                logs.forEach(log => {
+                    let badgeClass = log.type === 'batch' ? 'badge-batch' : (log.type === 'fallback' ? 'badge-fallback' : 'badge-scheduled');
+                    box.innerHTML += `
+                        <div class="history-row">
+                            <span><span class="history-badge ${badgeClass}">${log.type}</span></span>
+                            <span style="color: var(--neon-cyan);">${log.recipient}</span>
+                            <span style="color: var(--text-main); max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${log.message}</span>
+                            <span style="color: var(--text-muted); font-size: 0.7rem;">${new Date(log.timestamp).toLocaleTimeString()}</span>
+                        </div>
+                    `;
+                });
+            } catch(e) { console.error(e); }
+        }
+        window.onload = () => { fetchHistoryLogs(); setInterval(fetchHistoryLogs, 5000); };
+    </script>
+</body>
+</html>

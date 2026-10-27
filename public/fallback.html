@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fallback Settings - Nexon</title>
+    <style>
+        :root {
+            --bg-base: #090d16;
+            --metallic-panel: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(10, 14, 26, 0.98) 100%);
+            --neon-cyan: #38bdf8;
+            --neon-emerald: #34d399;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace, sans-serif; }
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(56, 189, 248, 0.25) 0%, transparent 60%),
+                linear-gradient(rgba(15, 23, 42, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.3) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: var(--text-main); min-height: 100vh; padding: 40px;
+        }
+        .wrapper { max-width: 800px; margin: 0 auto; }
+        .back-btn { display: inline-block; color: var(--neon-cyan); text-decoration: none; margin-bottom: 20px; font-size: 0.9rem; text-shadow: 0 0 8px rgba(56,189,248,0.4); }
+        .panel {
+            background: var(--metallic-panel); border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 14px; padding: 35px; box-shadow: 0 15px 45px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            position: relative; overflow: hidden;
+        }
+        .panel::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%;
+            background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-emerald));
+            box-shadow: 0 0 12px var(--neon-cyan);
+        }
+        h2 { color: var(--neon-cyan); margin-bottom: 20px; text-shadow: 0 0 10px rgba(56,189,248,0.4); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1.5px; }
+        textarea {
+            width: 100%; background: rgba(2, 6, 23, 0.95); border: 1px solid #334155; padding: 14px;
+            color: var(--text-main); border-radius: 8px; font-size: 0.95rem; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+        }
+        textarea:focus { border-color: var(--neon-cyan); box-shadow: 0 0 12px rgba(56,189,248,0.4); }
+        .btn {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white; border: none;
+            padding: 12px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase;
+            letter-spacing: 1.2px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.35); transition: 0.3s;
+        }
+        .btn:hover { box-shadow: 0 6px 22px rgba(52,211,153,0.6); transform: translateY(-1px); }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <a href="index.html" class="back-btn">← Back to Hub</a>
+        <div class="panel">
+            <h2>Unknown Fallback Settings</h2>
+            <div class="form-group">
+                <label>Fallback Message (For non-VCF numbers with 15-min cooldown):</label>
+                <textarea id="fallback-message-text" rows="6">🎀 𝑫ᴇᴀʀ, 𝑫ᴇᴠɪʟ ɪs 𝑪ᴜʀʀᴇɴᴛʟʏ 𝑩ᴜꜱʏ. 🤍
+📩 𝒀ᴏᴜʀ 𝑴ᴇꜱꜱᴀɢᴇ 𝑯ᴀꜱ 𝑩ᴇᴇɴ 𝑵ᴏᴛᴇᴅ. ✨
+⏳ 𝑯ᴇ’ʟʟ 𝑮ᴇᴛ 𝑩ᴀᴄᴋ 𝑻ᴏ 𝒀ᴏᴜ 𝑺ᴏᴏɴ. 🌸</textarea>
+            </div>
+            <button class="btn" onclick="saveFallbackMessage()">Save Fallback Message</button>
+        </div>
+    </div>
+    <script>
+        async function saveFallbackMessage() {
+            const fallbackMessage = document.getElementById('fallback-message-text').value;
+            const res = await fetch('/api/config', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fallbackMessage }) });
+            alert((await res.json()).status);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VCF Ingestion - Nexon</title>
+    <style>
+        :root {
+            --bg-base: #090d16;
+            --metallic-panel: linear-gradient(135deg, rgba(20, 27, 45, 0.95) 0%, rgba(10, 14, 26, 0.98) 100%);
+            --neon-cyan: #38bdf8;
+            --neon-emerald: #34d399;
+            --neon-amber: #fbbf24;
+            --neon-rose: #f43f5e;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace, sans-serif; }
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(56, 189, 248, 0.25) 0%, transparent 60%),
+                linear-gradient(rgba(15, 23, 42, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.3) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: var(--text-main); min-height: 100vh; padding: 40px;
+        }
+        .wrapper { max-width: 800px; margin: 0 auto; }
+        .back-btn { display: inline-block; color: var(--neon-cyan); text-decoration: none; margin-bottom: 20px; font-size: 0.9rem; text-shadow: 0 0 8px rgba(56,189,248,0.4); }
+        .panel {
+            background: var(--metallic-panel);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 14px; padding: 35px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            position: relative; overflow: hidden;
+        }
+        .panel::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%;
+            background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-emerald));
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+        h2 { color: var(--neon-cyan); margin-bottom: 20px; text-shadow: 0 0 12px rgba(56,189,248,0.6); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1.5px; }
+        
+        /* GLOWING METALLIC FILE UPLOAD BOX */
+        .file-upload-box {
+            border: 2px dashed var(--neon-cyan);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.95) 100%);
+            padding: 22px; border-radius: 10px; text-align: center; cursor: pointer;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2), inset 0 0 10px rgba(56, 189, 248, 0.1);
+            transition: all 0.3s ease;
+        }
+        .file-upload-box:hover {
+            border-color: var(--neon-emerald);
+            box-shadow: 0 0 25px rgba(52, 211, 153, 0.4), inset 0 0 15px rgba(52, 211, 153, 0.2);
+            transform: translateY(-2px);
+        }
+
+        input[type="text"] {
+            width: 100%; background: rgba(2, 6, 23, 0.95); border: 1px solid #334155;
+            padding: 12px; color: var(--text-main); border-radius: 8px; font-size: 0.9rem; outline: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+        }
+        input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(56,189,248,0.5); }
+        
+        /* DYNAMIC GLOWING BUTTONS */
+        .btn {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: white; border: none;
+            padding: 12px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase;
+            letter-spacing: 1.2px; box-shadow: 0 0 15px rgba(2, 132, 199, 0.4); transition: all 0.3s ease;
+        }
+        .btn:hover { box-shadow: 0 0 25px rgba(56, 189, 248, 0.8); transform: translateY(-2px); }
+        .btn-alt { background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 0 15px rgba(5, 150, 105, 0.4); }
+        .btn-alt:hover { box-shadow: 0 0 25px rgba(52, 211, 153, 0.8); }
+        .btn-warning { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); box-shadow: 0 0 15px rgba(217, 119, 6, 0.4); }
+        .btn-warning:hover { box-shadow: 0 0 25px rgba(251, 191, 36, 0.8); }
+
+        .contact-list-box { max-height: 350px; overflow-y: auto; border: 1px solid #334155; border-radius: 8px; background: rgba(2, 6, 23, 0.85); padding: 8px; margin-top: 15px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.6); }
+        .db-contact-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid rgba(51,65,85,0.4); font-size: 0.85rem; gap: 12px; }
+        .db-contact-row:hover { background: rgba(56,189,248,0.08); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.88); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: #0f172a; border: 1px solid var(--neon-cyan); width: 90%; max-width: 650px; border-radius: 12px; padding: 28px; box-shadow: 0 0 40px rgba(56,189,248,0.35); max-height: 85vh; display: flex; flex-direction: column; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid #334155; padding-bottom: 12px; }
+        .modal-header h3 { color: var(--neon-cyan); }
+        .close-btn { background: none; border: none; color: var(--neon-rose); font-size: 1.3rem; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <a href="index.html" class="back-btn">← Back to Hub</a>
+        <div class="panel">
+            <h2>.VCF Contact Ingestion & Manager</h2>
+            <div class="form-group">
+                <label>Upload Phone vCard (.vcf) File:</label>
+                <div class="file-upload-box" onclick="document.getElementById('vcf-file-input').click()">
+                    <p style="font-size: 0.95rem; color: var(--neon-cyan); font-weight: bold;" id="file-label-text">📂 Click to browse computer for .vcf file</p>
+                    <input type="file" id="vcf-file-input" accept=".vcf" style="display: none;">
+                </div>
+            </div>
+            <div style="display: flex; gap: 12px; margin-bottom: 15px; flex-wrap: wrap;">
+                <button class="btn btn-alt" onclick="uploadVcfFile()">🚀 Upload & Parse .VCF</button>
+                <button class="btn btn-warning" onclick="openContactsModal()">👁️ View Database Contacts (<span id="count-badge">0</span>)</button>
+            </div>
+            <p id="vcf-upload-status" style="font-size: 0.85rem; color: var(--neon-emerald); font-weight: bold;"></p>
+        </div>
+    </div>
+
+    <div id="contactsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📂 Database Contacts Manager</h3>
+                <button class="close-btn" onclick="closeContactsModal()">✕</button>
+            </div>
+            <input type="text" id="db-contact-search" placeholder="Search saved contacts..." onkeyup="filterModalContacts()" style="margin-bottom: 12px;">
+            <div class="contact-list-box" id="modal-contacts-list"></div>
+        </div>
+    </div>
+
+    <script>
+        let cachedContacts = [];
+        
+        document.getElementById('vcf-file-input').addEventListener('change', function() {
+            if (this.files.length > 0) {
+                document.getElementById('file-label-text').textContent = '✨ Selected File: ' + this.files[0].name;
+            }
+        });
+
+        async function loadContacts() {
+            try {
+                const res = await fetch('/api/contacts');
+                cachedContacts = await res.json();
+                document.getElementById('count-badge').textContent = cachedContacts.length;
+            } catch(e) { console.error(e); }
+        }
+
+        function openContactsModal() {
+            document.getElementById('contactsModal').style.display = 'flex';
+            renderModalContacts(cachedContacts);
+        }
+
+        function closeContactsModal() {
+            document.getElementById('contactsModal').style.display = 'none';
+            loadContacts();
+        }
+
+        function renderModalContacts(contacts) {
+            const listContainer = document.getElementById('modal-contacts-list');
+            if (contacts.length === 0) {
+                listContainer.innerHTML = `<div class="db-contact-row" style="color: var(--text-muted); justify-content: center;">No contacts found in database.</div>`;
+                return;
+            }
+            listContainer.innerHTML = '';
+            contacts.forEach(c => {
+                const row = document.createElement('div');
+                row.className = 'db-contact-row';
+                row.innerHTML = `
+                    <input type="text" value="${c.name}" id="name_${btoa(c.id)}" style="width: 45%; padding: 6px; font-size: 0.8rem; margin: 0;">
+                    <span style="color: var(--neon-cyan); font-size: 0.75rem;">${c.id}</span>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="btn btn-alt" style="padding: 4px 8px; font-size: 0.7rem;" onclick="updateContactName('${c.id}')">Update</button>
+                        <button class="btn" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); padding: 4px 8px; font-size: 0.7rem;" onclick="deleteDatabaseContact('${c.id}')">Delete</button>
+                    </div>
+                `;
+                listContainer.appendChild(row);
+            });
+        }
+
+        function filterModalContacts() {
+            const query = document.getElementById('db-contact-search').value.toLowerCase();
+            const filtered = cachedContacts.filter(c => c.name.toLowerCase().includes(query) || c.id.includes(query));
+            renderModalContacts(filtered);
+        }
+
+        async function updateContactName(id) {
+            const newName = document.getElementById(`name_${btoa(id)}`).value;
+            const res = await fetch('/api/contacts/update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, name: newName }) });
+            alert((await res.json()).status);
+            loadContacts();
+        }
+
+        async function deleteDatabaseContact(id) {
+            if (!confirm(`Delete ${id}?`)) return;
+            const res = await fetch(`/api/contacts/${encodeURIComponent(id)}`, { method: 'DELETE' });
+            alert((await res.json()).status);
+            loadContacts();
+            renderModalContacts(cachedContacts);
+        }
+
+        async function uploadVcfFile() {
+            const fileInput = document.getElementById('vcf-file-input');
+            if (!fileInput.files.length) return alert('Please select a .vcf file first.');
+            
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const res = await fetch('/api/upload-vcf', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ vcfData: e.target.result }) });
+                    const data = await res.json();
+                    document.getElementById('vcf-upload-status').textContent = data.status;
+                    loadContacts();
+                } catch(err) { alert('Upload failed: ' + err.message); }
+            };
+            reader.readAsText(fileInput.files[0]);
+        }
+
+        window.onload = loadContacts;
+    </script>
+</body>
+</html>

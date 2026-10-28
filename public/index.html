@@ -44,7 +44,7 @@
             background: var(--metallic-panel);
             border: 1px solid rgba(56, 189, 248, 0.4);
             border-image: var(--metallic-border) 1;
-            padding: 25px 35px; border-radius: 14px; margin-bottom: 40px;
+            padding: 25px 35px; border-radius: 14px; margin-bottom: 25px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             flex-wrap: wrap; gap: 20px;
         }
@@ -67,7 +67,18 @@
         input:checked + .slider:before { transform: translateX(28px); }
         #status-text { font-weight: bold; font-size: 0.9rem; color: var(--neon-rose); text-shadow: 0 0 8px rgba(244,63,94,0.6); letter-spacing: 1px; }
 
-        /* Balanced 2-Column Grid (3 items left, 3 items right) */
+        .stats-ticker {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;
+        }
+        @media(max-width: 768px) { .stats-ticker { grid-template-columns: 1fr; } }
+        .stat-box {
+            background: var(--metallic-panel); border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 10px; padding: 15px 20px; text-align: center;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.05), 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .stat-box span { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .stat-box h4 { font-size: 1.5rem; color: var(--neon-cyan); text-shadow: 0 0 10px rgba(56,189,248,0.4); }
+
         .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         @media(max-width: 768px) { .nav-grid { grid-template-columns: 1fr; } }
 
@@ -104,7 +115,7 @@
         <header>
             <div class="logo-area">
                 <h1>NEXON AUTOMATION HUB</h1>
-                <p>Cyber-Metallic Control Sub-Grid v3.4</p>
+                <p>Cyber-Metallic Control Sub-Grid v3.5</p>
             </div>
             <div class="header-controls">
                 <div class="live-badge">
@@ -121,7 +132,21 @@
             </div>
         </header>
 
-        <!-- Balanced 3 Cards on Left, 3 Cards on Right -->
+        <div class="stats-ticker">
+            <div class="stat-box">
+                <span>Total VCF Contacts</span>
+                <h4 id="stat-contacts">0</h4>
+            </div>
+            <div class="stat-box">
+                <span>Active Batches</span>
+                <h4 id="stat-batches">0</h4>
+            </div>
+            <div class="stat-box">
+                <span>Scheduled Dispatches</span>
+                <h4 id="stat-scheduled">0</h4>
+            </div>
+        </div>
+
         <div class="nav-grid">
             <a href="vcf.html" class="nav-card">
                 <h3>📂 1. VCF Contact Ingestion</h3>
@@ -164,6 +189,10 @@
                 const label = document.getElementById('connection-label');
                 const toggle = document.getElementById('bot-toggle');
                 const statusText = document.getElementById('status-text');
+
+                document.getElementById('stat-contacts').textContent = data.totalContacts || 0;
+                document.getElementById('stat-batches').textContent = data.activeBatches || 0;
+                document.getElementById('stat-scheduled').textContent = data.scheduledCount || 0;
 
                 if (data.status === 'connected') {
                     dot.className = 'pulse-dot connected';

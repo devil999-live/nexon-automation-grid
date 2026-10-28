@@ -25,7 +25,7 @@
             background-size: 100% 100%, 30px 30px, 30px 30px;
             color: var(--text-main); min-height: 100vh; padding: 40px;
         }
-        .wrapper { max-width: 900px; margin: 0 auto; }
+        .wrapper { max-width: 950px; margin: 0 auto; }
         .back-btn { display: inline-block; color: var(--neon-cyan); text-decoration: none; margin-bottom: 20px; font-size: 0.9rem; text-shadow: 0 0 8px rgba(56,189,248,0.4); }
         .panel {
             background: var(--metallic-panel); border: 1px solid rgba(56, 189, 248, 0.3);
@@ -44,13 +44,34 @@
             box-shadow: 0 2px 10px rgba(5,150,105,0.3); transition: 0.3s;
         }
         .btn-alt:hover { box-shadow: 0 4px 15px rgba(52,211,153,0.5); transform: translateY(-1px); }
-        .contact-list-box { max-height: 400px; overflow-y: auto; border: 1px solid #334155; border-radius: 8px; background: rgba(2, 6, 23, 0.85); padding: 8px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.6); }
-        .history-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid rgba(51,65,85,0.4); font-size: 0.82rem; gap: 12px; }
-        .history-row:hover { background: rgba(56, 189, 248, 0.06); }
-        .history-badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; text-transform: uppercase; font-weight: bold; }
+        .contact-list-box { max-height: 480px; overflow-y: auto; border: 1px solid #334155; border-radius: 8px; background: rgba(2, 6, 23, 0.85); padding: 8px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.6); }
+        .history-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-bottom: 1px solid rgba(51,65,85,0.4); font-size: 0.82rem; gap: 12px; cursor: pointer; transition: 0.2s; }
+        .history-row:hover { background: rgba(56, 189, 248, 0.08); border-color: rgba(56, 189, 248, 0.4); }
+        .history-badge { padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; text-transform: uppercase; font-weight: bold; }
         .badge-scheduled { background: rgba(251,191,36,0.2); color: var(--neon-amber); border: 1px solid rgba(251,191,36,0.4); }
         .badge-batch { background: rgba(52,211,153,0.2); color: var(--neon-emerald); border: 1px solid rgba(52,211,153,0.4); }
         .badge-fallback { background: rgba(244,63,94,0.2); color: var(--neon-rose); border: 1px solid rgba(244,63,94,0.4); }
+        .badge-incoming { background: rgba(56,189,248,0.2); color: var(--neon-cyan); border: 1px solid rgba(56,189,248,0.4); }
+        .badge-system { background: rgba(148,163,184,0.2); color: var(--text-muted); border: 1px solid rgba(148,163,184,0.4); }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(5px);
+            display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px;
+        }
+        .modal-content {
+            background: var(--metallic-panel); border: 1px solid var(--neon-cyan);
+            border-radius: 12px; width: 100%; max-width: 600px; padding: 30px;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.4); position: relative;
+        }
+        .modal-content h3 { color: var(--neon-cyan); margin-bottom: 15px; font-size: 1.2rem; }
+        .modal-body { font-size: 0.88rem; line-height: 1.6; color: var(--text-main); margin-bottom: 20px; word-break: break-all; }
+        .modal-body p { margin-bottom: 8px; }
+        .modal-body span { color: var(--text-muted); }
+        .modal-close {
+            background: var(--neon-rose); color: white; border: none; padding: 8px 16px;
+            border-radius: 6px; cursor: pointer; font-weight: bold; text-transform: uppercase; float: right;
+        }
     </style>
 </head>
 <body>
@@ -58,33 +79,73 @@
         <a href="index.html" class="back-btn">← Back to Hub</a>
         <div class="panel">
             <h2>
-                📊 Live Analytics & Sent History Feed
+                📊 Live Analytics & System Audit Feed
                 <button class="btn-alt" onclick="fetchHistoryLogs()">Refresh Logs</button>
             </h2>
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 15px;">Click any log row to inspect complete event payload, timestamp, and details.</p>
             <div class="contact-list-box" id="history-list-box"></div>
         </div>
     </div>
+
+    <div class="modal-overlay" id="log-modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>🔍 Log Event Inspector</h3>
+            <div class="modal-body" id="modal-details-body"></div>
+            <button class="modal-close" onclick="closeModal()">Close</button>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+
     <script>
+        let globalLogs = [];
+
         async function fetchHistoryLogs() {
             try {
                 const res = await fetch('/api/history');
-                const logs = await res.json();
+                globalLogs = await res.json();
                 const box = document.getElementById('history-list-box');
-                if (!logs.length) { box.innerHTML = `<div class="history-row" style="color: var(--text-muted); justify-content: center;">No logs recorded yet.</div>`; return; }
+                if (!globalLogs.length) { 
+                    box.innerHTML = `<div class="history-row" style="color: var(--text-muted); justify-content: center;">No activity logs recorded yet.</div>`; 
+                    return; 
+                }
                 box.innerHTML = '';
-                logs.forEach(log => {
-                    let badgeClass = log.type === 'batch' ? 'badge-batch' : (log.type === 'fallback' ? 'badge-fallback' : 'badge-scheduled');
+                globalLogs.forEach((log, index) => {
+                    let badgeClass = 'badge-system';
+                    if (log.type === 'batch') badgeClass = 'badge-batch';
+                    else if (log.type === 'fallback') badgeClass = 'badge-fallback';
+                    else if (log.type === 'scheduled') badgeClass = 'badge-scheduled';
+                    else if (log.type === 'incoming') badgeClass = 'badge-incoming';
+
                     box.innerHTML += `
-                        <div class="history-row">
+                        <div class="history-row" onclick="openLogDetails(${index})">
                             <span><span class="history-badge ${badgeClass}">${log.type}</span></span>
-                            <span style="color: var(--neon-cyan);">${log.recipient}</span>
-                            <span style="color: var(--text-main); max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${log.message}</span>
+                            <span style="color: var(--neon-cyan); max-width: 150px; overflow: hidden; text-overflow: ellipsis;">${log.recipient}</span>
+                            <span style="color: var(--text-main); max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${log.message}</span>
                             <span style="color: var(--text-muted); font-size: 0.7rem;">${new Date(log.timestamp).toLocaleTimeString()}</span>
                         </div>
                     `;
                 });
-            } catch(e) { console.error(e); }
+            } catch(e) {}
         }
+
+        function openLogDetails(index) {
+            const log = globalLogs[index];
+            if (!log) return;
+            const dt = new Date(log.timestamp);
+            document.getElementById('modal-details-body').innerHTML = `
+                <p><span>Event ID:</span> ${log.id}</p>
+                <p><span>Type:</span> <strong style="color: var(--neon-cyan); text-transform:uppercase;">${log.type}</strong></p>
+                <p><span>Date:</span> ${dt.toLocaleDateString()}</p>
+                <p><span>Time:</span> ${dt.toLocaleTimeString()}</p>
+                <p><span>Recipient / Target:</span> ${log.recipient}</p>
+                <p><span>Message / Content:</span><br><div style="background: rgba(2,6,23,0.9); padding: 10px; border-radius: 6px; border: 1px solid #334155; margin-top: 4px; color: #38bdf8;">${log.message}</div></p>
+                ${log.details && Object.keys(log.details).length ? `<p style="margin-top:10px;"><span>Extra Details:</span><br><pre style="font-size:0.75rem; color:#34d399; background:rgba(2,6,23,0.9); padding:8px; border-radius:6px;">${JSON.stringify(log.details, null, 2)}</pre></p>` : ''}
+            `;
+            document.getElementById('log-modal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('log-modal').style.display = 'none'; }
+
         window.onload = () => { fetchHistoryLogs(); setInterval(fetchHistoryLogs, 5000); };
     </script>
 </body>

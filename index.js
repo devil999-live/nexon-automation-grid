@@ -167,15 +167,16 @@ function saveHistoryToDisk() {
     }
 }
 
-function logHistory(type, recipient, message) {
+function logHistory(type, recipient, message, extraDetails = {}) {
     messageHistory.unshift({
         id: 'hist_' + Date.now() + Math.random().toString(36).substring(2, 7),
         type, 
         recipient,
         message,
+        details: extraDetails,
         timestamp: new Date().toISOString()
     });
-    if (messageHistory.length > 150) messageHistory = messageHistory.slice(0, 150);
+    if (messageHistory.length > 200) messageHistory = messageHistory.slice(0, 200);
     saveHistoryToDisk();
 }
 
@@ -249,6 +250,7 @@ function parseVcfContent(vcfText) {
     }
 
     saveContactsToDisk();
+    logHistory('system', 'Local Database', `Parsed ${count} contacts from VCF file.`);
     console.log(`[VCF Parser] Successfully parsed ${count} clean contacts.`);
     return count;
 }
@@ -274,11 +276,13 @@ async function startBot() {
         if (connection === 'close') {
             botConnectionStatus = 'disconnected';
             latestQR = "";
+            logHistory('system', 'WhatsApp Core', 'Connection closed.');
             const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
             if (shouldReconnect) startBot();
         } else if (connection === 'open') {
             botConnectionStatus = 'connected';
             latestQR = ""; // Clear QR once connected
+            logHistory('system', 'WhatsApp Core', 'Connected successfully.');
             console.log('\n[SUCCESS] WhatsApp Bot connected successfully!\n');
         }
     });
@@ -338,82 +342,85 @@ async function startBot() {
         }
     }, 1000);
 
-    // --- MESSAGES UPSERT (INDEPENDENT TELEGRAM LOGGER & BOT LOGIC) ---
+    // --- MESSAGES UPSERT (FIXED: PROCESSES ALL MESSAGES IN BATCH, ZERO LOSS) ---
     sock.ev.on('messages.upsert', async ({ messages }) => {
-        const msg = messages[0];
-        if (!msg.message || msg.key.fromMe) return;
+        for (const msg of messages) {
+            if (!msg.message || msg.key.fromMe) continue;
 
-        if (msg.message.protocolMessage) return;
+            if (msg.message.protocolMessage) continue;
 
-        let rawSender = msg.key.remoteJidAlt && msg.key.remoteJidAlt.includes('@s.whatsapp.net') 
-            ? msg.key.remoteJidAlt 
-            : msg.key.remoteJid;
+            let rawSender = msg.key.remoteJidAlt && msg.key.remoteJidAlt.includes('@s.whatsapp.net') 
+                ? msg.key.remoteJidAlt 
+                : msg.key.remoteJid;
 
-        const senderLast10 = getLast10Digits(rawSender);
-        const messageText = msg.message.conversation || msg.message.extendedTextMessage?.text || msg.message.imageMessage?.caption || msg.message.videoMessage?.caption;
+            const senderLast10 = getLast10Digits(rawSender);
+            const messageText = msg.message.conversation || msg.message.extendedTextMessage?.text || msg.message.imageMessage?.caption || msg.message.videoMessage?.caption;
 
-        // --- 1. INDEPENDENT TELEGRAM LOGGER CHECK (Runs regardless of isBotEnabled) ---
-        if (tgConfig.enabled) {
-            try {
-                let senderInfo = `+${rawSender.split('@')[0]}`;
-                for (let [dbId, contact] of contactsMap.entries()) {
-                    if (getLast10Digits(dbId) === senderLast10) {
-                        senderInfo = `${contact.name} (+${senderLast10})`;
-                        break;
+            logHistory('incoming', rawSender, messageText || '[Media/Other Message]', { senderLast10 });
+
+            // --- 1. INDEPENDENT TELEGRAM LOGGER CHECK (Runs regardless of isBotEnabled) ---
+            if (tgConfig.enabled) {
+                try {
+                    let senderInfo = `+${rawSender.split('@')[0]}`;
+                    for (let [dbId, contact] of contactsMap.entries()) {
+                        if (getLast10Digits(dbId) === senderLast10) {
+                            senderInfo = `${contact.name} (+${senderLast10})`;
+                            break;
+                        }
+                    }
+                    const logText = messageText || '[Media / File Attachment]';
+                    console.log(`[TG Logger] Triggered for incoming message from ${senderInfo}`);
+                    sendTelegramMessage(`🛡️ [Anti-Revoke Logger]\n👤 From: ${senderInfo}\n💬 Message: ${logText}`);
+                } catch (tgErr) {
+                    console.error('[TELEGRAM FORWARD ERROR]:', tgErr.message);
+                }
+            }
+
+            // --- 2. MAIN BOT AUTO-REPLY / FALLBACK LOGIC (Only runs if isBotEnabled is true) ---
+            if (!messageText) continue;
+            if (!isBotEnabled) continue;
+
+            let isSavedInVcfDb = false;
+            for (let [dbId, contact] of contactsMap.entries()) {
+                const dbLast10 = getLast10Digits(contact.id || dbId);
+                if (dbLast10 === senderLast10) {
+                    isSavedInVcfDb = true;
+                    break;
+                }
+            }
+
+            if (isSavedInVcfDb) {
+                let matchedBatch = null;
+                for (let batch of batchesConfig) {
+                    if (batch.contacts && Array.isArray(batch.contacts)) {
+                        const found = batch.contacts.some(cId => getLast10Digits(cId) === senderLast10);
+                        if (found) {
+                            matchedBatch = batch;
+                            break;
+                        }
                     }
                 }
-                const logText = messageText || '[Media / File Attachment]';
-                console.log(`[TG Logger] Triggered for incoming message from ${senderInfo}`);
-                sendTelegramMessage(`🛡️ [Anti-Revoke Logger]\n👤 From: ${senderInfo}\n💬 Message: ${logText}`);
-            } catch (tgErr) {
-                console.error('[TELEGRAM FORWARD ERROR]:', tgErr.message);
-            }
-        }
 
-        // --- 2. MAIN BOT AUTO-REPLY / FALLBACK LOGIC (Only runs if isBotEnabled is true) ---
-        if (!messageText) return;
-        if (!isBotEnabled) return;
-
-        let isSavedInVcfDb = false;
-        for (let [dbId, contact] of contactsMap.entries()) {
-            const dbLast10 = getLast10Digits(contact.id || dbId);
-            if (dbLast10 === senderLast10) {
-                isSavedInVcfDb = true;
-                break;
-            }
-        }
-
-        if (isSavedInVcfDb) {
-            let matchedBatch = null;
-            for (let batch of batchesConfig) {
-                if (batch.contacts && Array.isArray(batch.contacts)) {
-                    const found = batch.contacts.some(cId => getLast10Digits(cId) === senderLast10);
-                    if (found) {
-                        matchedBatch = batch;
-                        break;
+                if (matchedBatch) {
+                    const lastMessageTime = cooldownMap.get(senderLast10) || 0;
+                    const currentTime = Date.now();
+                    if (currentTime - lastMessageTime >= COOLDOWN_TIME_MS) {
+                        cooldownMap.set(senderLast10, currentTime);
+                        await sock.sendMessage(msg.key.remoteJid, { text: matchedBatch.message });
+                        logHistory('batch', msg.key.remoteJid, matchedBatch.message);
                     }
                 }
+                continue; 
             }
 
-            if (matchedBatch) {
-                const lastMessageTime = cooldownMap.get(senderLast10) || 0;
-                const currentTime = Date.now();
-                if (currentTime - lastMessageTime >= COOLDOWN_TIME_MS) {
-                    cooldownMap.set(senderLast10, currentTime);
-                    await sock.sendMessage(msg.key.remoteJid, { text: matchedBatch.message });
-                    logHistory('batch', msg.key.remoteJid, matchedBatch.message);
-                }
-            }
-            return; 
+            const lastMessageTime = cooldownMap.get(senderLast10) || 0;
+            const currentTime = Date.now();
+            if (currentTime - lastMessageTime < COOLDOWN_TIME_MS) continue;
+
+            cooldownMap.set(senderLast10, currentTime);
+            await sock.sendMessage(msg.key.remoteJid, { text: unknownFallbackMessage });
+            logHistory('fallback', msg.key.remoteJid, unknownFallbackMessage);
         }
-
-        const lastMessageTime = cooldownMap.get(senderLast10) || 0;
-        const currentTime = Date.now();
-        if (currentTime - lastMessageTime < COOLDOWN_TIME_MS) return;
-
-        cooldownMap.set(senderLast10, currentTime);
-        await sock.sendMessage(msg.key.remoteJid, { text: unknownFallbackMessage });
-        logHistory('fallback', msg.key.remoteJid, unknownFallbackMessage);
     });
 }
 
@@ -567,7 +574,7 @@ app.delete('/api/schedule/:id', (req, res) => {
 app.post('/api/upload-vcf', (req, res) => {
     const { vcfData } = req.body;
     try {
-        if (!vcfData) throw new DataTransfer(); // fallback
+        if (!vcfData) throw new Error('VCF data missing.');
         const addedCount = parseVcfContent(vcfData);
         res.json({ status: `Successfully parsed and added ${addedCount} clean contacts from VCF file!` });
     } catch (err) {

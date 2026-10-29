@@ -1,4 +1,4 @@
-const { makeWASocket, useMultiFileAuthState, DisconnectReason, downloadMediaMessage } = require('@whiskeysockets/baileys');
+const { makeWASocket, useMultiFileAuthState, DisconnectReason, downloadContentFromMessage } = require('@whiskeysockets/baileys');
 const qrcode = require('qrcode-terminal');
 const QRCodeLib = require('qrcode');
 const express = require('express');
@@ -7,6 +7,8 @@ const fs = require('fs');
 const pino = require('pino');
 const multer = require('multer');
 const https = require('https');
+const axios = require('axios');
+const FormData = require('form-data');
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -24,7 +26,7 @@ const upload = multer({ storage: storage });
 
 let sock;
 let botConnectionStatus = 'disconnected';
-let latestQR = ""; // Variable to hold raw QR string for browser viewing
+let latestQR = ""; 
 
 // --- INDEPENDENT TELEGRAM LOGGER CONFIGURATION ---
 const TG_CONFIG_FILE = path.join(__dirname, 'telegram_config.json');
@@ -52,34 +54,168 @@ function saveTgConfig() {
     }
 }
 
-// Helper to send messages to Telegram with detailed response error logging
-function sendTelegramMessage(text) {
-    if (!tgConfig.botToken || !tgConfig.chatId) {
-        console.log('[TG Error] Bot Token or Chat ID is missing!');
+// --- TELEGRAM MEDIA QUEUE & RATE-LIMITING SYSTEM ---
+let tgMessageQueue = [];
+let isProcessingTgQueue = false;
+
+function pushToTgQueue(task) {
+    tgMessageQueue.push(task);
+    processTgQueue();
+}
+
+async function processTgQueue() {
+    if (isProcessingTgQueue || tgMessageQueue.length === 0) return;
+    isProcessingTgQueue = true;
+
+    if (!tgConfig.enabled || !tgConfig.botToken || !tgConfig.chatId) {
+        isProcessingTgQueue = false;
         return;
     }
-    const data = JSON.stringify({ chat_id: tgConfig.chatId, text: text });
-    const options = {
-        hostname: 'api.telegram.org',
-        port: 443,
-        path: `/bot${tgConfig.botToken}/sendMessage`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) }
-    };
-    const req = https.request(options, (res) => {
-        let responseBody = '';
-        res.on('data', (chunk) => { responseBody += chunk; });
-        res.on('end', () => {
-            if (res.statusCode !== 200) {
-                console.error(`[TELEGRAM API FAILED] Status: ${res.statusCode}, Response: ${responseBody}`);
-            } else {
-                console.log('[TELEGRAM SUCCESS] Message successfully logged to Telegram!');
+
+    const task = tgMessageQueue.shift();
+
+    try {
+        if (task.type === 'text') {
+            const data = JSON.stringify({ chat_id: tgConfig.chatId, text: task.text, parse_mode: 'HTML' });
+            const options = {
+                hostname: 'api.telegram.org',
+                port: 443,
+                path: `/bot${tgConfig.botToken}/sendMessage`,
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) }
+            };
+            await new Promise((resolve, reject) => {
+                const req = https.request(options, (res) => {
+                    let responseBody = '';
+                    res.on('data', (chunk) => { responseBody += chunk; });
+                    res.on('end', () => {
+                        if (res.statusCode !== 200) reject(new Error(`Status: ${res.statusCode}, Response: ${responseBody}`));
+                        else resolve();
+                    });
+                });
+                req.on('error', reject);
+                req.write(data);
+                req.end();
+            });
+        } else if (task.type === 'media') {
+            let endpoint = 'sendDocument';
+            let fileField = 'document';
+
+            if (task.mediaType === 'imageMessage') {
+                endpoint = 'sendPhoto';
+                fileField = 'photo';
+            } else if (task.mediaType === 'videoMessage') {
+                endpoint = 'sendVideo';
+                fileField = 'video';
+            } else if (task.mediaType === 'audioMessage') {
+                endpoint = 'sendAudio';
+                fileField = 'audio';
             }
-        });
-    });
-    req.on('error', (err) => console.error('[TELEGRAM NETWORK ERROR]:', err.message));
-    req.write(data);
-    req.end();
+
+            const url = `https://api.telegram.org/bot${tgConfig.botToken}/${endpoint}`;
+            const form = new FormData();
+            form.append('chat_id', tgConfig.chatId);
+            form.append(fileField, task.buffer, { filename: task.filename });
+            if (task.caption) {
+                form.append('caption', task.caption);
+                form.append('parse_mode', 'HTML');
+            }
+
+            await axios.post(url, form, {
+                headers: form.getHeaders(),
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity
+            });
+        }
+        await new Promise(resolve => setTimeout(resolve, 1200));
+    } catch (err) {
+        console.error('[TELEGRAM QUEUE ERROR]:', err.response?.data || err.message);
+    }
+
+    isProcessingTgQueue = false;
+    processTgQueue();
+}
+
+// Robust helper to handle View Once, Ephemeral, and nested media wrappers with size limits
+async function downloadMediaMessageBuffer(msg) {
+    try {
+        let messageContent = msg.message;
+        if (!messageContent) return null;
+
+        // Recursively unwrap nested wrappers (Ephemeral, View Once v1/v2/v2Extension)
+        let maxDepth = 5;
+        while (maxDepth > 0) {
+            if (messageContent.ephemeralMessage?.message) {
+                messageContent = messageContent.ephemeralMessage.message;
+            } else if (messageContent.viewOnceMessage?.message) {
+                messageContent = messageContent.viewOnceMessage.message;
+            } else if (messageContent.viewOnceMessageV2?.message) {
+                messageContent = messageContent.viewOnceMessageV2.message;
+            } else if (messageContent.viewOnceMessageV2Extension?.message) {
+                messageContent = messageContent.viewOnceMessageV2Extension.message;
+            } else {
+                break;
+            }
+            maxDepth--;
+        }
+
+        let mediaType = null;
+        let ext = 'bin';
+
+        if (messageContent.imageMessage) {
+            mediaType = 'imageMessage';
+            ext = (messageContent.imageMessage.mimetype || 'image/jpeg').split('/')[1] || 'jpg';
+        } else if (messageContent.videoMessage) {
+            mediaType = 'videoMessage';
+            ext = (messageContent.videoMessage.mimetype || 'video/mp4').split('/')[1] || 'mp4';
+        } else if (messageContent.documentMessage) {
+            mediaType = 'documentMessage';
+            ext = messageContent.documentMessage.fileName?.split('.').pop() || 'file';
+        } else if (messageContent.audioMessage) {
+            mediaType = 'audioMessage';
+            ext = 'mp3';
+        } else if (messageContent.stickerMessage) {
+            mediaType = 'imageMessage';
+            ext = 'webp';
+        }
+
+        if (!mediaType) return null;
+
+        const mediaObj = messageContent[mediaType] || messageContent;
+        
+        // Safety check for file size (Telegram Bot API limit is ~50MB, restrict to 45MB safely)
+        const fileSize = mediaObj.fileLength ? Number(mediaObj.fileLength) : 0;
+        const MAX_ALLOWED_SIZE = 45 * 1024 * 1024; // 45 MB
+
+        if (fileSize > MAX_ALLOWED_SIZE) {
+            return {
+                isTooLarge: true,
+                fileSizeMB: (fileSize / (1024 * 1024)).toFixed(2),
+                filename: mediaObj.fileName || `large_file.${ext}`
+            };
+        }
+
+        const stream = await downloadContentFromMessage(
+            mediaObj,
+            mediaType === 'imageMessage' && messageContent.stickerMessage ? 'sticker' : mediaType.replace('Message', '')
+        );
+
+        let buffer = Buffer.from([]);
+        for await (const chunk of stream) {
+            buffer = Buffer.concat([buffer, chunk]);
+        }
+
+        return {
+            isTooLarge: false,
+            buffer,
+            mediaType: messageContent.stickerMessage ? 'imageMessage' : mediaType,
+            filename: mediaObj.fileName || `media_${Date.now()}.${ext}`,
+            caption: messageContent.imageMessage?.caption || messageContent.videoMessage?.caption || messageContent.documentMessage?.caption || ''
+        };
+    } catch (e) {
+        console.error('[Media Download Error / View Once]:', e.message);
+        return null;
+    }
 }
 
 const DB_FILE = path.join(__dirname, 'contacts_db.json');
@@ -87,7 +223,6 @@ const BATCHES_FILE = path.join(__dirname, 'batches_db.json');
 const SCHEDULE_FILE = path.join(__dirname, 'schedule_db.json');
 const HISTORY_FILE = path.join(__dirname, 'history_db.json');
 
-// --- SMART ANTI-SPAM COOLDOWN MAP (15 Minutes) ---
 let cooldownMap = new Map();
 const COOLDOWN_TIME_MS = 15 * 60 * 1000;
 
@@ -181,7 +316,7 @@ function logHistory(type, recipient, message, extraDetails = {}) {
 }
 
 let isBotEnabled = false;
-let unknownFallbackMessage = "🎀 𝑫ᴇᴀʀ, 𝑫ᴇᴠɪʟ ɪs 𝑪ᴜʀʀᴇɴᴛʟʏ 𝑩ᴜꜱʏ. 🤍\n📩 𝒀ᴏᴜʀ 𝑴ᴇꜱꜱᴀɢᴇ 𝑯ᴀꜱ 𝑩ᴇᴇɴ 𝑵ᴏᴛᴇᴅ. ✨\n⏳ 𝑯ᴇ’ʟʟ 𝑮ᴇᴛ 𝑩ᴀᴄᴋ 𝑻ᴏ 𝒀ᴏᴜ 𝑺ᴏᴏɴ. 🌸";
+let unknownFallbackMessage = "🎀 𝑫ᴇᴀʀ, 𝑫ᴇᴠɪʟ ɪs 𝑪ᴜʀʀᴇɴᴛʟʏ 𝑩ᴜꜱʏ. 🤍\n📩 𝒀ᴏᴜʀ 𝒁ᴇꜱꜱᴀɢᴇ 𝑯ᴀꜱ 𝑩ᴇᴇɴ 𝑵ᴏᴛᴇᴅ. ✨\n⏳ 𝑯ᴇ’ʟʟ 𝑮ᴇᴛ 𝑩ᴀᴄᴋ 𝑻ᴏ 𝒀ᴏᴜ 𝑺ᴏᴏɴ. 🌸";
 
 function getLast10Digits(inputStr) {
     if (!inputStr) return "";
@@ -267,7 +402,7 @@ async function startBot() {
         const { connection, lastDisconnect, qr } = update;
         if (qr) {
             botConnectionStatus = 'qr_waiting';
-            latestQR = qr; // Save raw QR for browser endpoint
+            latestQR = qr; 
             console.log('\n==============================');
             console.log('SCAN THIS FRESH QR CODE:');
             console.log('==============================\n');
@@ -281,7 +416,7 @@ async function startBot() {
             if (shouldReconnect) startBot();
         } else if (connection === 'open') {
             botConnectionStatus = 'connected';
-            latestQR = ""; // Clear QR once connected
+            latestQR = ""; 
             logHistory('system', 'WhatsApp Core', 'Connected successfully.');
             console.log('\n[SUCCESS] WhatsApp Bot connected successfully!\n');
         }
@@ -342,11 +477,10 @@ async function startBot() {
         }
     }, 1000);
 
-    // --- MESSAGES UPSERT (FIXED: PROCESSES ALL MESSAGES IN BATCH, ZERO LOSS) ---
+    // --- MESSAGES UPSERT (CRASH-PROOF WITH SIZE LIMIT & VIEW ONCE SUPPORT) ---
     sock.ev.on('messages.upsert', async ({ messages }) => {
         for (const msg of messages) {
             if (!msg.message || msg.key.fromMe) continue;
-
             if (msg.message.protocolMessage) continue;
 
             let rawSender = msg.key.remoteJidAlt && msg.key.remoteJidAlt.includes('@s.whatsapp.net') 
@@ -354,11 +488,19 @@ async function startBot() {
                 : msg.key.remoteJid;
 
             const senderLast10 = getLast10Digits(rawSender);
-            const messageText = msg.message.conversation || msg.message.extendedTextMessage?.text || msg.message.imageMessage?.caption || msg.message.videoMessage?.caption;
+            const messageText = msg.message.conversation || msg.message.extendedTextMessage?.text || msg.message.imageMessage?.caption || msg.message.videoMessage?.caption || msg.message.documentMessage?.caption || '';
 
-            logHistory('incoming', rawSender, messageText || '[Media/Other Message]', { senderLast10 });
+            let mediaData = null;
+            try {
+                mediaData = await downloadMediaMessageBuffer(msg);
+            } catch (mediaErr) {
+                console.error('[Safe Media Catch]:', mediaErr.message);
+                mediaData = null;
+            }
 
-            // --- 1. INDEPENDENT TELEGRAM LOGGER CHECK (Runs regardless of isBotEnabled) ---
+            logHistory('incoming', rawSender, messageText || (mediaData ? `[Media Attachment: ${mediaData.filename}]` : '[Media/Other Message]'), { senderLast10 });
+
+            // --- 1. INDEPENDENT TELEGRAM LOGGER CHECK (Crash-Proof) ---
             if (tgConfig.enabled) {
                 try {
                     let senderInfo = `+${rawSender.split('@')[0]}`;
@@ -368,16 +510,38 @@ async function startBot() {
                             break;
                         }
                     }
-                    const logText = messageText || '[Media / File Attachment]';
-                    console.log(`[TG Logger] Triggered for incoming message from ${senderInfo}`);
-                    sendTelegramMessage(`🛡️ [Anti-Revoke Logger]\n👤 From: ${senderInfo}\n💬 Message: ${logText}`);
+
+                    if (mediaData) {
+                        if (mediaData.isTooLarge) {
+                            console.log(`[TG Logger] Skipped oversized media (${mediaData.fileSizeMB} MB) from ${senderInfo}`);
+                            pushToTgQueue({
+                                type: 'text',
+                                text: `🛡️ [Anti-Revoke Logger]\n👤 From: ${senderInfo}\n⚠️ <b>[Media Skipped]</b>\nA media file was received but cannot be shown because its size (${mediaData.fileSizeMB} MB) exceeds Telegram's 50MB limit.`
+                            });
+                        } else {
+                            console.log(`[TG Logger] Triggered for incoming media from ${senderInfo}`);
+                            pushToTgQueue({
+                                type: 'media',
+                                mediaType: mediaData.mediaType,
+                                buffer: mediaData.buffer,
+                                filename: mediaData.filename,
+                                caption: `🛡️ [Anti-Revoke Logger]\n👤 From: ${senderInfo}\n💬 <b>[Media Attachment]</b>\n${mediaData.caption}`
+                            });
+                        }
+                    } else if (messageText) {
+                        console.log(`[TG Logger] Triggered for incoming message from ${senderInfo}`);
+                        pushToTgQueue({
+                            type: 'text',
+                            text: `🛡️ [Anti-Revoke Logger]\n👤 From: ${senderInfo}\n💬 Message: ${messageText}`
+                        });
+                    }
                 } catch (tgErr) {
                     console.error('[TELEGRAM FORWARD ERROR]:', tgErr.message);
                 }
             }
 
-            // --- 2. MAIN BOT AUTO-REPLY / FALLBACK LOGIC (Only runs if isBotEnabled is true) ---
-            if (!messageText) continue;
+            // --- 2. MAIN BOT AUTO-REPLY / FALLBACK LOGIC ---
+            if (!messageText && !mediaData) continue;
             if (!isBotEnabled) continue;
 
             let isSavedInVcfDb = false;
@@ -423,6 +587,15 @@ async function startBot() {
         }
     });
 }
+
+// Global Unhandled Error Catchers so terminal NEVER crashes
+process.on('uncaughtException', (err) => {
+    console.error('[CRITICAL UNCAUGHT EXCEPTION]:', err.message);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('[CRITICAL UNHANDLED REJECTION]:', reason);
+});
 
 // API Endpoints
 app.get('/', (req, res) => {
@@ -545,6 +718,7 @@ app.post('/api/schedule', upload.array('mediaFiles', 10), (req, res) => {
 
         const mediaPaths = req.files ? req.files.map(file => file.path) : [];
 
+        scheduledMessages.path = mediaPaths; 
         scheduledMessages.push({
             id: 'sched_' + Date.now(),
             contactIds: parsedContactIds,
@@ -567,7 +741,7 @@ app.delete('/api/schedule/:id', (req, res) => {
         saveScheduleToDisk();
         res.json({ status: 'Scheduled message cancelled!' });
     } catch (err) {
-        res.status(500).json({ status: 'Failed to cancel schedule: ' + err.message });
+        res.status(500).json({ status: 'Failed to schedule message: ' + err.message });
     }
 });
 

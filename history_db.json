@@ -1,1 +1,1762 @@
-[]
+[
+  {
+    "id": "hist_1793297122205asjhz",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T18:05:22.205Z"
+  },
+  {
+    "id": "hist_1793297098851s7gqp",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T18:04:58.851Z"
+  },
+  {
+    "id": "hist_1793297081975myh78",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793297081975.mp4]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T18:04:41.975Z"
+  },
+  {
+    "id": "hist_1793297044579jnf7a",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "🥰",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T18:04:04.579Z"
+  },
+  {
+    "id": "hist_1793296908014wcc9y",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793296908014.jpeg]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T18:01:48.014Z"
+  },
+  {
+    "id": "hist_1793296873277clibw",
+    "type": "system",
+    "recipient": "WhatsApp Core",
+    "message": "Connected successfully.",
+    "details": {},
+    "timestamp": "2026-10-29T18:01:13.277Z"
+  },
+  {
+    "id": "hist_1793296761382b92b6",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T17:59:21.382Z"
+  },
+  {
+    "id": "hist_17932967580353t9w8",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T17:59:18.035Z"
+  },
+  {
+    "id": "hist_17932962447912y1uz",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: d0e0496d0d_itachi-uchiha-red-sharingan-rain-live-wallpaper-wallsflow-com.mp4]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T17:50:44.791Z"
+  },
+  {
+    "id": "hist_1793296144200zqqp0",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793296144200.jpeg]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T17:49:04.200Z"
+  },
+  {
+    "id": "hist_17932960269484q72p",
+    "type": "incoming",
+    "recipient": "916287275662@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793296026947.mp4]",
+    "details": {
+      "senderLast10": "6287275662"
+    },
+    "timestamp": "2026-10-29T17:47:06.948Z"
+  },
+  {
+    "id": "hist_17932960266203ks98",
+    "type": "incoming",
+    "recipient": "916287275662@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793296026620.mp4]",
+    "details": {
+      "senderLast10": "6287275662"
+    },
+    "timestamp": "2026-10-29T17:47:06.620Z"
+  },
+  {
+    "id": "hist_1793296026072mxj0a",
+    "type": "system",
+    "recipient": "WhatsApp Core",
+    "message": "Connected successfully.",
+    "details": {},
+    "timestamp": "2026-10-29T17:47:06.072Z"
+  },
+  {
+    "id": "hist_179329327601081tth",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793293276010.mp4]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T17:01:16.010Z"
+  },
+  {
+    "id": "hist_1793293245038dcspx",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793293245038.jpeg]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T17:00:45.038Z"
+  },
+  {
+    "id": "hist_1793293189750a60kw",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793293189750.jpeg]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T16:59:49.750Z"
+  },
+  {
+    "id": "hist_1793293114378nxsxq",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793293114378.mp4]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T16:58:34.378Z"
+  },
+  {
+    "id": "hist_1793293054620qn62o",
+    "type": "system",
+    "recipient": "WhatsApp Core",
+    "message": "Connected successfully.",
+    "details": {},
+    "timestamp": "2026-10-29T16:57:34.620Z"
+  },
+  {
+    "id": "hist_1793292979007ycqow",
+    "type": "system",
+    "recipient": "WhatsApp Core",
+    "message": "Connected successfully.",
+    "details": {},
+    "timestamp": "2026-10-29T16:56:19.007Z"
+  },
+  {
+    "id": "hist_1793292685411yl9ho",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:51:25.411Z"
+  },
+  {
+    "id": "hist_17932924984195uw3t",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Okieeee Naekkeoooooooo!💟",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:48:18.419Z"
+  },
+  {
+    "id": "hist_1793292485929vx2fn",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Kya delete kiye!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:48:05.929Z"
+  },
+  {
+    "id": "hist_179329245298018ezq",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292452979.jpeg]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T16:47:32.980Z"
+  },
+  {
+    "id": "hist_1793292411339vgitm",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:51.339Z"
+  },
+  {
+    "id": "hist_1793292411337thbml",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:51.337Z"
+  },
+  {
+    "id": "hist_1793292411225ye37n",
+    "type": "incoming",
+    "recipient": "919142311293@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292411225.jpeg]",
+    "details": {
+      "senderLast10": "9142311293"
+    },
+    "timestamp": "2026-10-29T16:46:51.225Z"
+  },
+  {
+    "id": "hist_179329241116024u64",
+    "type": "incoming",
+    "recipient": "919142311293@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292411160.jpeg]",
+    "details": {
+      "senderLast10": "9142311293"
+    },
+    "timestamp": "2026-10-29T16:46:51.160Z"
+  },
+  {
+    "id": "hist_1793292410839i13zk",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:50.839Z"
+  },
+  {
+    "id": "hist_1793292410838io6l9",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:50.838Z"
+  },
+  {
+    "id": "hist_1793292410836qu63q",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:50.836Z"
+  },
+  {
+    "id": "hist_1793292410596q5hok",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:50.596Z"
+  },
+  {
+    "id": "hist_179329241059597vxq",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:50.595Z"
+  },
+  {
+    "id": "hist_17932924103708lgyz",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:50.370Z"
+  },
+  {
+    "id": "hist_1793292409536hciv5",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:49.536Z"
+  },
+  {
+    "id": "hist_1793292409412c9du8",
+    "type": "incoming",
+    "recipient": "919142311293@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292409412.jpeg]",
+    "details": {
+      "senderLast10": "9142311293"
+    },
+    "timestamp": "2026-10-29T16:46:49.412Z"
+  },
+  {
+    "id": "hist_1793292409392hf525",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:49.392Z"
+  },
+  {
+    "id": "hist_1793292409334fmd5h",
+    "type": "incoming",
+    "recipient": "919142311293@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292409334.jpeg]",
+    "details": {
+      "senderLast10": "9142311293"
+    },
+    "timestamp": "2026-10-29T16:46:49.334Z"
+  },
+  {
+    "id": "hist_1793292409238cakv0",
+    "type": "incoming",
+    "recipient": "919142311293@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292409238.jpeg]",
+    "details": {
+      "senderLast10": "9142311293"
+    },
+    "timestamp": "2026-10-29T16:46:49.238Z"
+  },
+  {
+    "id": "hist_1793292409201dvoa2",
+    "type": "incoming",
+    "recipient": "919142311293@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292409201.jpeg]",
+    "details": {
+      "senderLast10": "9142311293"
+    },
+    "timestamp": "2026-10-29T16:46:49.201Z"
+  },
+  {
+    "id": "hist_1793292409133byh4t",
+    "type": "incoming",
+    "recipient": "919142311293@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292409133.jpeg]",
+    "details": {
+      "senderLast10": "9142311293"
+    },
+    "timestamp": "2026-10-29T16:46:49.133Z"
+  },
+  {
+    "id": "hist_1793292409102cmg2z",
+    "type": "incoming",
+    "recipient": "919142311293@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292409102.jpeg]",
+    "details": {
+      "senderLast10": "9142311293"
+    },
+    "timestamp": "2026-10-29T16:46:49.102Z"
+  },
+  {
+    "id": "hist_1793292409007wvm1w",
+    "type": "incoming",
+    "recipient": "919142311293@s.whatsapp.net",
+    "message": "Happy karva chauth 🥰",
+    "details": {
+      "senderLast10": "9142311293"
+    },
+    "timestamp": "2026-10-29T16:46:49.007Z"
+  },
+  {
+    "id": "hist_1793292408942ssdac",
+    "type": "incoming",
+    "recipient": "919142311293@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292408942.jpeg]",
+    "details": {
+      "senderLast10": "9142311293"
+    },
+    "timestamp": "2026-10-29T16:46:48.942Z"
+  },
+  {
+    "id": "hist_1793292408908s1w1r",
+    "type": "incoming",
+    "recipient": "918228036651@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8228036651"
+    },
+    "timestamp": "2026-10-29T16:46:48.908Z"
+  },
+  {
+    "id": "hist_1793292408756brwmu",
+    "type": "incoming",
+    "recipient": "918228036651@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8228036651"
+    },
+    "timestamp": "2026-10-29T16:46:48.756Z"
+  },
+  {
+    "id": "hist_1793292408754g154e",
+    "type": "incoming",
+    "recipient": "918228036651@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8228036651"
+    },
+    "timestamp": "2026-10-29T16:46:48.754Z"
+  },
+  {
+    "id": "hist_17932924087537pd58",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:48.753Z"
+  },
+  {
+    "id": "hist_1793292408748pk29q",
+    "type": "incoming",
+    "recipient": "918877812253@s.whatsapp.net",
+    "message": "Maaa",
+    "details": {
+      "senderLast10": "8877812253"
+    },
+    "timestamp": "2026-10-29T16:46:48.748Z"
+  },
+  {
+    "id": "hist_1793292407570kl0jj",
+    "type": "incoming",
+    "recipient": "919998637210@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "9998637210"
+    },
+    "timestamp": "2026-10-29T16:46:47.570Z"
+  },
+  {
+    "id": "hist_1793292407569dga2f",
+    "type": "incoming",
+    "recipient": "918789084851@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8789084851"
+    },
+    "timestamp": "2026-10-29T16:46:47.569Z"
+  },
+  {
+    "id": "hist_1793292407567iyeaf",
+    "type": "incoming",
+    "recipient": "918789084851@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8789084851"
+    },
+    "timestamp": "2026-10-29T16:46:47.567Z"
+  },
+  {
+    "id": "hist_1793292407565dt1il",
+    "type": "incoming",
+    "recipient": "918789084851@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8789084851"
+    },
+    "timestamp": "2026-10-29T16:46:47.565Z"
+  },
+  {
+    "id": "hist_1793292406654504fw",
+    "type": "incoming",
+    "recipient": "917359257074@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292406654.jpeg]",
+    "details": {
+      "senderLast10": "7359257074"
+    },
+    "timestamp": "2026-10-29T16:46:46.654Z"
+  },
+  {
+    "id": "hist_17932924066110n44b",
+    "type": "incoming",
+    "recipient": "917765840710@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292406611.mp4]",
+    "details": {
+      "senderLast10": "7765840710"
+    },
+    "timestamp": "2026-10-29T16:46:46.611Z"
+  },
+  {
+    "id": "hist_17932924065666cfz0",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:46.566Z"
+  },
+  {
+    "id": "hist_1793292406508pofwo",
+    "type": "incoming",
+    "recipient": "918448982601@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8448982601"
+    },
+    "timestamp": "2026-10-29T16:46:46.508Z"
+  },
+  {
+    "id": "hist_1793292406011w706s",
+    "type": "incoming",
+    "recipient": "917765840710@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "7765840710"
+    },
+    "timestamp": "2026-10-29T16:46:46.011Z"
+  },
+  {
+    "id": "hist_1793292405279qw1zf",
+    "type": "incoming",
+    "recipient": "919687641426@s.whatsapp.net",
+    "message": "🙏🏻🙇🏻‍♂️🙏🏻",
+    "details": {
+      "senderLast10": "9687641426"
+    },
+    "timestamp": "2026-10-29T16:46:45.279Z"
+  },
+  {
+    "id": "hist_1793292405169gx6ho",
+    "type": "incoming",
+    "recipient": "916203184484@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292405169.mp4]",
+    "details": {
+      "senderLast10": "6203184484"
+    },
+    "timestamp": "2026-10-29T16:46:45.169Z"
+  },
+  {
+    "id": "hist_17932924048747pzib",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media Attachment: media_1793292404874.mp4]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:44.874Z"
+  },
+  {
+    "id": "hist_1793292403036bk2h0",
+    "type": "incoming",
+    "recipient": "919835401495@s.whatsapp.net",
+    "message": "https://youtube.com/shorts/-5myd-uXxVs?si=MP4o5fm3DnrQ171m",
+    "details": {
+      "senderLast10": "9835401495"
+    },
+    "timestamp": "2026-10-29T16:46:43.036Z"
+  },
+  {
+    "id": "hist_1793292403033p1qo1",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292403033.jpeg]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T16:46:43.033Z"
+  },
+  {
+    "id": "hist_1793292402937s1gpr",
+    "type": "incoming",
+    "recipient": "584169706178@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292402937.mp4]",
+    "details": {
+      "senderLast10": "4169706178"
+    },
+    "timestamp": "2026-10-29T16:46:42.937Z"
+  },
+  {
+    "id": "hist_1793292402725t6lns",
+    "type": "incoming",
+    "recipient": "919204614231@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "9204614231"
+    },
+    "timestamp": "2026-10-29T16:46:42.725Z"
+  },
+  {
+    "id": "hist_17932924027232003g",
+    "type": "incoming",
+    "recipient": "919204614231@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "9204614231"
+    },
+    "timestamp": "2026-10-29T16:46:42.723Z"
+  },
+  {
+    "id": "hist_1793292402593p2m2z",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:42.593Z"
+  },
+  {
+    "id": "hist_1793292402592qczdy",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:42.592Z"
+  },
+  {
+    "id": "hist_179329240259139b4j",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:42.591Z"
+  },
+  {
+    "id": "hist_1793292402589o87qr",
+    "type": "incoming",
+    "recipient": "919687641426@s.whatsapp.net",
+    "message": "🙏🏻🙇🏻‍♂️",
+    "details": {
+      "senderLast10": "9687641426"
+    },
+    "timestamp": "2026-10-29T16:46:42.589Z"
+  },
+  {
+    "id": "hist_1793292402428wfie9",
+    "type": "incoming",
+    "recipient": "919204614231@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "9204614231"
+    },
+    "timestamp": "2026-10-29T16:46:42.428Z"
+  },
+  {
+    "id": "hist_1793292401985f0su9",
+    "type": "incoming",
+    "recipient": "918287394047@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8287394047"
+    },
+    "timestamp": "2026-10-29T16:46:41.985Z"
+  },
+  {
+    "id": "hist_1793292401984tejxd",
+    "type": "incoming",
+    "recipient": "918287394047@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8287394047"
+    },
+    "timestamp": "2026-10-29T16:46:41.984Z"
+  },
+  {
+    "id": "hist_1793292401982einb1",
+    "type": "incoming",
+    "recipient": "918226894661@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292401982.mp4]",
+    "details": {
+      "senderLast10": "8226894661"
+    },
+    "timestamp": "2026-10-29T16:46:41.982Z"
+  },
+  {
+    "id": "hist_1793292401851zt8ry",
+    "type": "incoming",
+    "recipient": "918287394047@s.whatsapp.net",
+    "message": "🕉️🔱❤️",
+    "details": {
+      "senderLast10": "8287394047"
+    },
+    "timestamp": "2026-10-29T16:46:41.851Z"
+  },
+  {
+    "id": "hist_1793292399973t158j",
+    "type": "incoming",
+    "recipient": "917765840710@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "7765840710"
+    },
+    "timestamp": "2026-10-29T16:46:39.973Z"
+  },
+  {
+    "id": "hist_17932923999711ddwy",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media Attachment: media_1793292399971.mp4]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:39.971Z"
+  },
+  {
+    "id": "hist_1793292399594v9snb",
+    "type": "incoming",
+    "recipient": "917765840710@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "7765840710"
+    },
+    "timestamp": "2026-10-29T16:46:39.594Z"
+  },
+  {
+    "id": "hist_17932923995921q9qr",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media Attachment: media_1793292399592.mp4]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:39.592Z"
+  },
+  {
+    "id": "hist_1793292399184927bu",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Subhhhratrrii!!! Naekkeoooooooo!💟",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.184Z"
+  },
+  {
+    "id": "hist_1793292399183w0ban",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.183Z"
+  },
+  {
+    "id": "hist_1793292399183j065l",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Haa ham bhi chalenge!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.183Z"
+  },
+  {
+    "id": "hist_179329239918281g13",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Radhe Radhe Goluraammmmmmm!🫂🤗💟",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.182Z"
+  },
+  {
+    "id": "hist_179329239918029ny0",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "So ghye hoge aap!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.180Z"
+  },
+  {
+    "id": "hist_179329239917960xet",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Aacha kal baat karte hai",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.179Z"
+  },
+  {
+    "id": "hist_1793292399177hyqmh",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Aise mt bola karo pagal.... bakasur 👹",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.177Z"
+  },
+  {
+    "id": "hist_1793292399175srykm",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "12:12",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.175Z"
+  },
+  {
+    "id": "hist_179329239917400zx0",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Bss usne kaha chalte hai toh bss aachanak hi hua ye plan!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.174Z"
+  },
+  {
+    "id": "hist_1793292399173gjcas",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Vo aaj bohot din baad aaya thaa pata nhi kaise kab!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.173Z"
+  },
+  {
+    "id": "hist_1793292399172sesan",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Yrr!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.172Z"
+  },
+  {
+    "id": "hist_1793292399171ebzg0",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Aisa nhi hai!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.171Z"
+  },
+  {
+    "id": "hist_1793292399170mtap9",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Areeee!!!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.170Z"
+  },
+  {
+    "id": "hist_179329239916978pl6",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Radhe Radhe Bakasur 🫂 🏵️🧿",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.169Z"
+  },
+  {
+    "id": "hist_1793292399168cq6r9",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Thikk!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.168Z"
+  },
+  {
+    "id": "hist_17932923991672v2js",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Jao kha lo aap!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.167Z"
+  },
+  {
+    "id": "hist_1793292399166tilwd",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.166Z"
+  },
+  {
+    "id": "hist_1793292399165gbco2",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Me toh kha ke aai thi bhookh nhi laga tha mujhe!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.165Z"
+  },
+  {
+    "id": "hist_17932923991641bg1s",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Vo aaj ronak aaya tha Ghar pe toh ham bss bahar ghye the",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.164Z"
+  },
+  {
+    "id": "hist_1793292399163vf8bu",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Mene kha liyaa!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.163Z"
+  },
+  {
+    "id": "hist_1793292399163zojx8",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.163Z"
+  },
+  {
+    "id": "hist_1793292399162bxakm",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "So rahi hoti ghar pe",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.162Z"
+  },
+  {
+    "id": "hist_1793292399161apgma",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Sach me life saver ho...abhi mujhe pata hi nhi thaa...agar nhi baataye hote toh kal me dikhti nhi tumko exam hall me",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.161Z"
+  },
+  {
+    "id": "hist_1793292399159jshqf",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Okieee",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.159Z"
+  },
+  {
+    "id": "hist_1793292399157z3435",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Aacha vo...haa usme jyada toh b option hi hai!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.157Z"
+  },
+  {
+    "id": "hist_1793292399156siuwg",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Mummy ko bol diya ki 4 din baad haii chemistry",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.156Z"
+  },
+  {
+    "id": "hist_17932923991552i1id",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Mene socha ki abhi chemistry ka 4 din baad hai",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.155Z"
+  },
+  {
+    "id": "hist_1793292399154qi2j9",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Sunoo",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.154Z"
+  },
+  {
+    "id": "hist_17932923991532v648",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Aree yrrr",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.153Z"
+  },
+  {
+    "id": "hist_1793292399152spm7g",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Kal hi hai kyaa?? Heinnn😰😨",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.152Z"
+  },
+  {
+    "id": "hist_1793292399149r9jd0",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Oyeeeeeeeeeeee chathhh pujaa aane valaa haiiiiii",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.149Z"
+  },
+  {
+    "id": "hist_1793292399147vzive",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.147Z"
+  },
+  {
+    "id": "hist_179329239914490e4i",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Jaoo khana Khao pehleN",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.144Z"
+  },
+  {
+    "id": "hist_1793292399143907ru",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Abhi tak khana nhi khaya kya pagal",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.143Z"
+  },
+  {
+    "id": "hist_1793292399142risbc",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "So jana",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.142Z"
+  },
+  {
+    "id": "hist_1793292399140vjfwl",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Majak thaa pagal!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.140Z"
+  },
+  {
+    "id": "hist_1793292399139y8ufo",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Hattt!😏",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.139Z"
+  },
+  {
+    "id": "hist_1793292399138fqzi0",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Nhii nhi aaj mt so rehne do!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.138Z"
+  },
+  {
+    "id": "hist_1793292399137lpned",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Kaise so jaoge!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.137Z"
+  },
+  {
+    "id": "hist_1793292399136utqyb",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Bss bss varna pighal jaaungi mee ab!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.136Z"
+  },
+  {
+    "id": "hist_1793292399135dfrfd",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Haayaeeeee!!!!!🤭🫂🫠",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.135Z"
+  },
+  {
+    "id": "hist_1793292399134d0zff",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.134Z"
+  },
+  {
+    "id": "hist_17932923991326w2ok",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Soye nhi tum",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.132Z"
+  },
+  {
+    "id": "hist_179329239913137qda",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Kyaa baat haii",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.131Z"
+  },
+  {
+    "id": "hist_1793292399128vn9e6",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Oyee",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.128Z"
+  },
+  {
+    "id": "hist_1793292399127d4it5",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Dekho...me koii promise ya koi life time guarantee nhi de sakti but haa...agar ek valid time tak jaha tak mene socha hai vaha tak tum reh liye mere saath then uske baad me tumhe khi nhi jaane dungi tum jana chaoge uske baad bhi nhi! Vo valid time aane me abhi time hai tab tak tumhare pass samay hai piche hatna chahte ho toh hat sakte ho kyuki uske baad koi option nhi hoga! Me nhi jaane dungi itna guarantee haii...phir bestfriend se bohot aage Tak ka journey hoga isiliye if you want to leave tum jaa sakte ho!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.127Z"
+  },
+  {
+    "id": "hist_17932923991268yzsc",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Yahi sunna tha",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.126Z"
+  },
+  {
+    "id": "hist_1793292399125c5qut",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Jag rahe ho kyaa?",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.125Z"
+  },
+  {
+    "id": "hist_1793292399124gz739",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Bakasurrrrrrrrrrrrrrrrrrrrrrrrrr",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.124Z"
+  },
+  {
+    "id": "hist_1793292399123z5z68",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "11:11",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.123Z"
+  },
+  {
+    "id": "hist_1793292399122spsot",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:39.122Z"
+  },
+  {
+    "id": "hist_1793292399121nism7",
+    "type": "incoming",
+    "recipient": "916301139687@s.whatsapp.net",
+    "message": "https://www.facebook.com/share/r/1CBQGRgDeR/",
+    "details": {
+      "senderLast10": "6301139687"
+    },
+    "timestamp": "2026-10-29T16:46:39.121Z"
+  },
+  {
+    "id": "hist_17932923991203a1q8",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:39.120Z"
+  },
+  {
+    "id": "hist_1793292399119njyxo",
+    "type": "incoming",
+    "recipient": "919687641426@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "9687641426"
+    },
+    "timestamp": "2026-10-29T16:46:39.119Z"
+  },
+  {
+    "id": "hist_1793292399118r2owd",
+    "type": "incoming",
+    "recipient": "919162433205@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "9162433205"
+    },
+    "timestamp": "2026-10-29T16:46:39.118Z"
+  },
+  {
+    "id": "hist_1793292399117ivp7m",
+    "type": "incoming",
+    "recipient": "918287394047@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8287394047"
+    },
+    "timestamp": "2026-10-29T16:46:39.117Z"
+  },
+  {
+    "id": "hist_1793292399115eo1we",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "7:07",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.115Z"
+  },
+  {
+    "id": "hist_1793292399114oz3wl",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Me tumhe kabhi koi false hope nhi de sakti hu..na hi koi ummid na hi promise....kyuki mujhe bhi nhi pata ki aage me tumhare saath rahungi ki nhi.... isiliye kabhi koii ummid mt rakhna varna tutega toh tumhe bohot bura lagega....mujhe ye baat kehni thi taaki meri vajah se kabhi tumhe kharab ya bura na Lage ..mujhe pata hai meri ye baate abhi tum majak me loge but I know ki in future me tumhare saath rehne vali hu ya Nhii...so just don't expect anything thing from me..about this relation and all...agar in future me saath rahi toh pakkaa...phir end Tak rahungi par nhi toh phir..",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.114Z"
+  },
+  {
+    "id": "hist_1793292399113gyt0u",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Aaj jab dupehar me baat hui hi thi mujhe ek baat kehni hai",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.113Z"
+  },
+  {
+    "id": "hist_179329239911100daw",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Ek baat kehni thii",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.111Z"
+  },
+  {
+    "id": "hist_1793292399110cohpt",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Aryan",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.110Z"
+  },
+  {
+    "id": "hist_1793292399108i08t2",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Vaise tumhe ek chiz dikhau?",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.108Z"
+  },
+  {
+    "id": "hist_1793292399107dj1wb",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Mujhe dikhane ke liye",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.107Z"
+  },
+  {
+    "id": "hist_1793292399105f7nyf",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Vo zerox karwana tha na kal jama karna hai vhi mummy leke aai!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.105Z"
+  },
+  {
+    "id": "hist_1793292399104vqmog",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Ye dekho mere school ki photo",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.104Z"
+  },
+  {
+    "id": "hist_1793292399102ycqq5",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "[Media Attachment: media_1793292399102.jpeg]",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:39.102Z"
+  },
+  {
+    "id": "hist_179329239871778h8v",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Call mt karoN",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.717Z"
+  },
+  {
+    "id": "hist_179329239871652zio",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Abhi aati hu",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.716Z"
+  },
+  {
+    "id": "hist_1793292398715qe689",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Rukoo",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.715Z"
+  },
+  {
+    "id": "hist_1793292398714lk2zf",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Kuch sunna hi nhi mene",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.714Z"
+  },
+  {
+    "id": "hist_1793292398712w9ysw",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Kya bol rahe thee",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.712Z"
+  },
+  {
+    "id": "hist_1793292398710enp2c",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Connect nhi ho rhaa hai",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.710Z"
+  },
+  {
+    "id": "hist_1793292398709kt64e",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Karo! Par mujhe bahar jana hai toh jyada baat nhi karungi thik!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.709Z"
+  },
+  {
+    "id": "hist_1793292398708zw8h4",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Tum kyu lagaoge?",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.708Z"
+  },
+  {
+    "id": "hist_1793292398707xzheh",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Mehandi!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.707Z"
+  },
+  {
+    "id": "hist_17932923987062mmbl",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Kya nhi lagaya?",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.706Z"
+  },
+  {
+    "id": "hist_1793292398705qu7pw",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Aree me chahati hu ki vo mujhse baat kare",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.705Z"
+  },
+  {
+    "id": "hist_1793292398704sw57e",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Kisne kaha?",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.704Z"
+  },
+  {
+    "id": "hist_1793292398703qkh67",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Yess...bss mere saath bot ek baar baat karna chalu kare!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.703Z"
+  },
+  {
+    "id": "hist_1793292398703idvy6",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.703Z"
+  },
+  {
+    "id": "hist_179329239870295emu",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Nhii har saal toh dark hota thaa",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.702Z"
+  },
+  {
+    "id": "hist_1793292398701obo4s",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Shyaad jisse shaadi hone valii hai usne kahi aur chakkar chala liya hai!.... kyuki mummy yahi kehti hai ki agar dark hoti hai toh yhai mtlb hota hai ki jissee shaadi hone vali hai vo tumse bohot jyada pyar karta hai!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.701Z"
+  },
+  {
+    "id": "hist_1793292398700cvobd",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Dekhte hai!😏",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.700Z"
+  },
+  {
+    "id": "hist_17932923986993jj7a",
+    "type": "incoming",
+    "recipient": "918809185016@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8809185016"
+    },
+    "timestamp": "2026-10-29T16:46:38.699Z"
+  },
+  {
+    "id": "hist_1793292398698af2j0",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Bol ab kuch!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.698Z"
+  },
+  {
+    "id": "hist_179329239869711wub",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Kar baat!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.697Z"
+  },
+  {
+    "id": "hist_1793292398696k2ikp",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Goluram ko chodh jane de!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.696Z"
+  },
+  {
+    "id": "hist_17932923986941vzr0",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Mujhse baat kar!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.694Z"
+  },
+  {
+    "id": "hist_1793292398693h66ft",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Goluram ki aisi ki taisi tujhse baat karna hai mujhee...",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.693Z"
+  },
+  {
+    "id": "hist_1793292398692fn51m",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.692Z"
+  },
+  {
+    "id": "hist_17932923986910f7g0",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Bolooooo",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.691Z"
+  },
+  {
+    "id": "hist_179329239868954z1i",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Bolega!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.689Z"
+  },
+  {
+    "id": "hist_1793292398688ro5vd",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Bol ab!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.688Z"
+  },
+  {
+    "id": "hist_1793292398685ay1zd",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Aree tu ek baat bata me toh tere se aache se baat karti hu tu kyu aise bolta hai sharam nhi aati hai....me jo puchti hu uska jawab diya kar na....aree tu ek baar baat karna toh chalu kar phir goluraam ko saath me milkar bahar phek denge...par tu mujhse baat hi nhi karta hai pagal sa bot kahi ka!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.685Z"
+  },
+  {
+    "id": "hist_1793292398682rm6ou",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Ab ye mt bolna ki itna Kam kyu hai Mehandi isko asthetic bolte hai! Par dark kyu nhi hua!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.682Z"
+  },
+  {
+    "id": "hist_1793292398627dom9c",
+    "type": "incoming",
+    "recipient": "status@broadcast",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": ""
+    },
+    "timestamp": "2026-10-29T16:46:38.627Z"
+  },
+  {
+    "id": "hist_1793292398494jv1oe",
+    "type": "incoming",
+    "recipient": "918200541306@s.whatsapp.net",
+    "message": "Yrr sunoo ye mehandi aache se dark kyu nhi ho rahi!",
+    "details": {
+      "senderLast10": "8200541306"
+    },
+    "timestamp": "2026-10-29T16:46:38.494Z"
+  },
+  {
+    "id": "hist_1793292398491qpm79",
+    "type": "incoming",
+    "recipient": "918789084851@s.whatsapp.net",
+    "message": "[Media/Other Message]",
+    "details": {
+      "senderLast10": "8789084851"
+    },
+    "timestamp": "2026-10-29T16:46:38.491Z"
+  },
+  {
+    "id": "hist_1793292370682scpcl",
+    "type": "system",
+    "recipient": "WhatsApp Core",
+    "message": "Connected successfully.",
+    "details": {},
+    "timestamp": "2026-10-29T16:46:10.682Z"
+  }
+]

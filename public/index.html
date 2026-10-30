@@ -67,6 +67,13 @@
         input:checked + .slider:before { transform: translateX(28px); }
         #status-text { font-weight: bold; font-size: 0.9rem; color: var(--neon-rose); text-shadow: 0 0 8px rgba(244,63,94,0.6); letter-spacing: 1px; }
 
+        .disconnect-btn {
+            background: #ef4444; color: #fff; padding: 12px 20px; border: none; border-radius: 8px; 
+            cursor: pointer; font-family: 'Courier New', Courier, monospace; font-weight: bold; 
+            box-shadow: 0 0 15px rgba(239,68,68,0.4); transition: 0.3s; display: flex; align-items: center; gap: 8px;
+        }
+        .disconnect-btn:hover { background: #dc2626; box-shadow: 0 0 20px rgba(239,68,68,0.7); transform: translateY(-2px); }
+
         .stats-ticker {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;
         }
@@ -129,6 +136,9 @@
                         <span class="slider"></span>
                     </label>
                 </div>
+                <button class="disconnect-btn" onclick="resetSession()">
+                    🔌 Disconnect & Reset
+                </button>
             </div>
         </header>
 
@@ -162,7 +172,7 @@
             </a>
             <a href="batches.html" class="nav-card">
                 <h3>👥 4. Custom Message Batches</h3>
-                <p>Group contacts into custom batches using live search filtesrs and assign specialized automated responses instantly.</p>
+                <p>Group contacts into custom batches using live search filters and assign specialized automated responses instantly.</p>
             </a>
             <a href="telegram.html" class="nav-card">
                 <h3>🛡️ 5. Telegram Anti-Revoke Logger</h3>
@@ -175,8 +185,8 @@
         </div>
 
         <div class="footer-note">
-    <p style="color: #38bdf8; text-shadow: 0 0 10px rgba(56,189,248,0.6);">© 2026 ɴᴇxᴏɴ ᴀᴜᴛᴏᴍᴀᴛɪᴏɴ ɢʀɪᴅ & ʀᴏᴏᴛ-ᴀᴄᴄᴇꜱꜱ ɪɴɪᴛɪᴀʟɪᴢᴇᴅ ʙʏ <span style="color: #38bdf8; font-weight: bold; text-shadow: 0 0 12px rgba(56,189,248,0.9);">𝐃𝐄𝐕𝐈𝐋</span>. ᴀʟʟ ʀɪɢʜᴛꜱ ʀᴇꜱᴇʀᴠᴇᴅ.</p>
-</div>
+            <p style="color: #38bdf8; text-shadow: 0 0 10px rgba(56,189,248,0.6);">© 2026 ɴᴇxᴏɴ ᴀᴜᴛᴏᴍᴀᴛɪᴏɴ ɢʀɪᴅ & ʀᴏᴏᴛ-ᴀᴄᴄᴇꜱꜱ ɪɴɪᴛɪᴀʟɪᴢᴇᴅ ʙʏ <span style="color: #38bdf8; font-weight: bold; text-shadow: 0 0 12px rgba(56,189,248,0.9);">𝐃𝐄𝐕𝐈𝐋</span>. ᴀʟʟ ʀɪɢʜᴛꜱ ʀᴇꜱᴇʀᴠᴇᴅ.</p>
+        </div>
     </div>
 
     <script>
@@ -199,7 +209,7 @@
                     label.textContent = 'WhatsApp Connected';
                 } else if (data.status === 'qr_waiting') {
                     dot.className = 'pulse-dot qr';
-                    label.textContent = 'Scan QR in Terminal';
+                    label.textContent = 'Scan QR in Terminal / /qr';
                 } else {
                     dot.className = 'pulse-dot';
                     label.textContent = 'Disconnected';
@@ -223,6 +233,31 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ enabled: isChecked })
             });
+        }
+
+        async function resetSession() {
+            if (!confirm("⚠️ Kya aap sach mein current device disconnect karke naya QR code generate karna chahte hain?")) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/reset-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                alert(data.status);
+
+                setTimeout(() => {
+                    window.location.href = '/qr';
+                }, 2000);
+
+            } catch (err) {
+                alert('❌ Error resetting session: ' + err.message);
+            }
         }
 
         window.onload = () => {

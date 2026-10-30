@@ -142,7 +142,6 @@ async function downloadMediaMessageBuffer(msg) {
         let messageContent = msg.message;
         if (!messageContent) return null;
 
-        // Recursively unwrap nested wrappers (Ephemeral, View Once v1/v2/v2Extension)
         let maxDepth = 5;
         while (maxDepth > 0) {
             if (messageContent.ephemeralMessage?.message) {
@@ -183,7 +182,6 @@ async function downloadMediaMessageBuffer(msg) {
 
         const mediaObj = messageContent[mediaType] || messageContent;
         
-        // Safety check for file size (Telegram Bot API limit is ~50MB, restrict to 45MB safely)
         const fileSize = mediaObj.fileLength ? Number(mediaObj.fileLength) : 0;
         const MAX_ALLOWED_SIZE = 45 * 1024 * 1024; // 45 MB
 
@@ -477,7 +475,7 @@ async function startBot() {
         }
     }, 1000);
 
-    // --- MESSAGES UPSERT (CRASH-PROOF WITH SIZE LIMIT & VIEW ONCE SUPPORT) ---
+    // --- MESSAGES UPSERT (CRASH-PROOF WITH SIZE LIMIT & SAFEGUARDS) ---
     sock.ev.on('messages.upsert', async ({ messages }) => {
         for (const msg of messages) {
             if (!msg.message || msg.key.fromMe) continue;
@@ -600,6 +598,38 @@ process.on('unhandledRejection', (reason, promise) => {
 // API Endpoints
 app.get('/', (req, res) => {
     res.send('Nexon Automation Grid - Bot is Active 24/7');
+});
+
+// --- DISCONNECT / RESET SESSION ENDPOINT (FOR NEW DEVICE QR) ---
+app.post('/api/reset-session', async (req, res) => {
+    try {
+        console.log('[SESSION RESET] Disconnecting current device and clearing auth_info...');
+        if (sock) {
+            try {
+                await sock.logout();
+            } catch (e) {
+                sock.end();
+            }
+        }
+        
+        const authPath = path.join(__dirname, 'auth_info');
+        if (fs.existsSync(authPath)) {
+            fs.rmSync(authPath, { recursive: true, force: true });
+            console.log('[SESSION RESET] auth_info folder cleared successfully.');
+        }
+
+        botConnectionStatus = 'disconnected';
+        latestQR = "";
+
+        setTimeout(() => {
+            startBot();
+        }, 1000);
+
+        res.json({ status: 'Session disconnected and reset successfully! Go to /qr to scan new code.' });
+    } catch (err) {
+        console.error('[SESSION RESET ERROR]:', err.message);
+        res.status(500).json({ status: 'Failed to reset session: ' + err.message });
+    }
 });
 
 // --- BROWSER QR CODE VIEWER ENDPOINT ---
